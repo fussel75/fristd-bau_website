@@ -1,0 +1,14 @@
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Hanken Grotesk', sans-serif;
+  background: #FFFFFF;
+  color: #2E2F31;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: #D2992C; color: #fff; }
+image-slot { display: block; }
+img { max-width: 100%; }
+a { color: inherit; }
