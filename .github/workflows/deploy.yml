@@ -1,0 +1,40 @@
+name: Deploy to VPS
+
+# Triggert bei jedem Push auf main und ist manuell ausloesbar
+# (GitHub Actions UI -> "Run workflow")
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Verhindert dass zwei Deployments gleichzeitig laufen
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy on VPS
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -euo pipefail
+            cd /opt/fristd-bau-website
+            echo "=== Git pull ==="
+            git pull --ff-only
+            echo "=== Build + restart ==="
+            docker compose up -d --build
+            echo "=== Status ==="
+            docker ps --format "table {{.Names}}\t{{.Status}}" | grep fristd-bau-website
+            echo "=== Smoke-Test ==="
+            sleep 5
+            curl -sI https://neu.fristd-bau.com | head -3
+            echo "=== Done ==="
