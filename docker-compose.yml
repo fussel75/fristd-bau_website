@@ -1,13 +1,8 @@
 # Docker Compose fuer Fristd-Bau Website
-# ----------------------------------------
-# Annahmen (anpassen falls Hostinger-Traefik anders heisst):
-#   - Externes Netzwerk:  traefik
-#   - HTTPS-Entrypoint:   websecure
-#   - HTTP-Entrypoint:    web
-#   - Certresolver:       letsencrypt
-#
-# Falls die Namen bei deinem Traefik abweichen, hier in den Labels
-# (TRAEFIK_NETWORK, certresolver, entrypoints) entsprechend aendern.
+# Passt zur Hostinger-Traefik-Konfiguration:
+#   - Traefik laeuft im network_mode: host und liest Labels per Docker-Socket
+#   - HTTP -> HTTPS Redirect ist in Traefik global aktiviert (nicht hier noetig)
+#   - Entrypoints: web (80), websecure (443), Certresolver: letsencrypt
 
 services:
   web:
@@ -15,31 +10,10 @@ services:
     image: fristd-bau-website:latest
     container_name: fristd-bau-website
     restart: unless-stopped
-    networks:
-      - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
-
-      # HTTPS-Router fuer alle drei Hostnames
       - "traefik.http.routers.fristd-web.rule=Host(`neu.fristd-bau.com`) || Host(`fristd-bau.com`) || Host(`www.fristd-bau.com`)"
       - "traefik.http.routers.fristd-web.entrypoints=websecure"
       - "traefik.http.routers.fristd-web.tls=true"
       - "traefik.http.routers.fristd-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.fristd-web.loadbalancer.server.port=80"
-
-      # HTTP -> HTTPS Redirect
-      - "traefik.http.routers.fristd-web-http.rule=Host(`neu.fristd-bau.com`) || Host(`fristd-bau.com`) || Host(`www.fristd-bau.com`)"
-      - "traefik.http.routers.fristd-web-http.entrypoints=web"
-      - "traefik.http.routers.fristd-web-http.middlewares=fristd-https-redirect"
-      - "traefik.http.middlewares.fristd-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.fristd-https-redirect.redirectscheme.permanent=true"
-
-      # www -> non-www Redirect (optional, kann nach Cutover sinnvoll sein)
-      # - "traefik.http.middlewares.fristd-www-redirect.redirectregex.regex=^https?://www\\.fristd-bau\\.com/(.*)"
-      # - "traefik.http.middlewares.fristd-www-redirect.redirectregex.replacement=https://fristd-bau.com/$$1"
-      # - "traefik.http.middlewares.fristd-www-redirect.redirectregex.permanent=true"
-
-networks:
-  traefik:
-    external: true
