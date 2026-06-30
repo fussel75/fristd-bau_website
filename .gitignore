@@ -11,6 +11,7 @@ data/
 media/
 # Auto-generierte Payload-Files
 src/payload-types.ts
-app/(payload)/admin/importMap.js
+# Hinweis: importMap.js bleibt committed (Stub fuer Build).
+# Lokale Regenerierung via `npm run generate:importmap` ueberschreibt sie.
 
 tsconfig.tsbuildinfo
