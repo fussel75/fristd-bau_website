@@ -1,22 +1,21 @@
 'use client';
 
 import { useRef, useState, PointerEvent } from 'react';
-import { ImageSlot } from './ImageSlot';
 
 type Props = {
   initialPos?: number;
-  beforeId: string;
-  afterId: string;
-  beforePlaceholder: string;
-  afterPlaceholder: string;
+  beforeSrc: string;
+  afterSrc: string;
+  beforeAlt: string;
+  afterAlt: string;
 };
 
 export function BeforeAfterSlider({
   initialPos = 50,
-  beforeId,
-  afterId,
-  beforePlaceholder,
-  afterPlaceholder,
+  beforeSrc,
+  afterSrc,
+  beforeAlt,
+  afterAlt,
 }: Props) {
   const [pos, setPos] = useState(initialPos);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -70,28 +69,35 @@ export function BeforeAfterSlider({
         background: '#FAF8F4',
       }}
     >
-      <div style={{ position: 'absolute', inset: 0 }}>
-        <ImageSlot
-          id={afterId}
-          shape="rect"
-          placeholder={afterPlaceholder}
-          style={{ width: '100%', height: '100%' }}
-        />
-      </div>
-      <div
+      <img
+        src={afterSrc}
+        alt={afterAlt}
         style={{
           position: 'absolute',
           inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          userSelect: 'none',
+          pointerEvents: 'none',
+        }}
+        draggable={false}
+      />
+      <img
+        src={beforeSrc}
+        alt={beforeAlt}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          userSelect: 'none',
+          pointerEvents: 'none',
           clipPath: `inset(0 calc(100% - ${pos}%) 0 0)`,
         }}
-      >
-        <ImageSlot
-          id={beforeId}
-          shape="rect"
-          placeholder={beforePlaceholder}
-          style={{ width: '100%', height: '100%' }}
-        />
-      </div>
+        draggable={false}
+      />
 
       <div
         style={{

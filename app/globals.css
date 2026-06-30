@@ -9,6 +9,5 @@ body {
   overflow-x: hidden;
 }
 ::selection { background: #D2992C; color: #fff; }
-image-slot { display: block; }
 img { max-width: 100%; }
 a { color: inherit; }

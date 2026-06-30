@@ -1,6 +1,5 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { ImageSlot } from '@/components/ImageSlot';
 import { FaqAccordion, FaqItem } from '@/components/FaqAccordion';
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
 import { LeistungenSidebar, SidebarItem } from '@/components/LeistungenSidebar';
@@ -80,6 +79,9 @@ const slotStyle: React.CSSProperties = {
   width: '100%',
   height: 'clamp(220px, 30vw, 340px)',
   marginBottom: 26,
+  objectFit: 'cover',
+  borderRadius: 16,
+  display: 'block',
 };
 
 const leadParagraph: React.CSSProperties = {
@@ -210,10 +212,10 @@ export default function LeistungenPage() {
                 <span style={numStyle}>01</span>
                 <h2 style={h2Style}>Neubau in Holz</h2>
               </div>
-              <ImageSlot
-                id="leist-1"
+              <img
+                src="/images/leistungen/neubau.jpg"
+                alt="Neubau in Holz — Holzrahmenbau mit Holzweichfaser-Daemmung"
                 style={slotStyle}
-                placeholder="Foto: Neubau in Holz — fertiges Einfamilien- oder Mehrfamilienhaus, repräsentative Außenansicht"
               />
               <p style={{ ...leadParagraph, marginBottom: 18 }}>
                 Eigenheime und Mehrfamilienhäuser im Holzrahmenbau — gesamtheitlich
@@ -239,10 +241,10 @@ export default function LeistungenPage() {
                 <span style={numStyle}>02</span>
                 <h2 style={h2Style}>Anbau &amp; Aufstockung</h2>
               </div>
-              <ImageSlot
-                id="leist-2"
+              <img
+                src="/images/leistungen/anbau.jpg"
+                alt="Aufstockung in Holzbauweise"
                 style={slotStyle}
-                placeholder="Foto: Aufstockung oder Anbau in Holzbauweise — Außenansicht im Fertigzustand"
               />
               <p style={leadParagraph}>
                 Zusätzlicher Wohnraum und spürbare Wertsteigerung für Ihr
@@ -269,10 +271,10 @@ export default function LeistungenPage() {
                 <h2 style={h2Style}>Sanierung</h2>
               </div>
               <BeforeAfterSlider
-                beforeId="leist-3-before"
-                afterId="leist-3-after"
-                beforePlaceholder="Foto: Sanierung VORHER — Fassade vor Modernisierung"
-                afterPlaceholder="Foto: Sanierung NACHHER — Fassade nach Modernisierung"
+                beforeSrc="/images/leistungen/sanierung-vorher.jpg"
+                afterSrc="/images/leistungen/sanierung-nachher.jpg"
+                beforeAlt="Sanierung VORHER — Eingang Bestand"
+                afterAlt="Sanierung NACHHER — Mansarddach Aufstockung"
               />
               <p style={leadParagraph}>
                 Behutsame Modernisierung mit Blick auf den energetischen und
@@ -301,10 +303,10 @@ export default function LeistungenPage() {
                 <span style={numStyle}>04</span>
                 <h2 style={h2Style}>Dach &amp; Dachdeckerei</h2>
               </div>
-              <ImageSlot
-                id="leist-4"
+              <img
+                src="/images/leistungen/dach.jpg"
+                alt="Dachsanierung — Dachdeckerarbeiten am Wohngebaeude"
                 style={slotStyle}
-                placeholder="Foto: Dachstuhl im Rohbau oder fertige Dacheindeckung (Detail Holz-Konstruktion)"
               />
               <p style={leadParagraph}>
                 Dachstühle, Dachsanierungen und Carports — handwerklich sauber
@@ -330,10 +332,10 @@ export default function LeistungenPage() {
                 <span style={numStyle}>05</span>
                 <h2 style={h2Style}>Energetik &amp; PV</h2>
               </div>
-              <ImageSlot
-                id="leist-5"
+              <img
+                src="/images/leistungen/energetik.jpg"
+                alt="Effizienzhaus mit Holzfassade"
                 style={slotStyle}
-                placeholder="Foto: Photovoltaik-Anlage auf Dach oder installierte Wärmepumpe"
               />
               <p style={leadParagraph}>
                 Photovoltaik, Wärmepumpen und Energieberatung für niedrige
@@ -359,10 +361,10 @@ export default function LeistungenPage() {
                 <span style={numStyle}>06</span>
                 <h2 style={h2Style}>Innenausbau</h2>
               </div>
-              <ImageSlot
-                id="leist-6"
+              <img
+                src="/images/leistungen/innenausbau.jpg"
+                alt="Innenausbau — fertiger Wohnraum"
                 style={slotStyle}
-                placeholder="Foto: Innenausbau — fertiger Wohnraum, Trockenbau-Detail oder Bodenbelag"
               />
               <p style={leadParagraph}>
                 Trockenbau und hochwertiger Innenausbau — der letzte Schliff für ein
