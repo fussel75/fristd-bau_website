@@ -1,4 +1,4 @@
-# Docker Compose fuer Fristd-Bau Website
+# Docker Compose fuer Fristd-Bau Website mit Payload CMS
 # Passt zur Hostinger-Traefik-Konfiguration:
 #   - Traefik laeuft im network_mode: host und liest Labels per Docker-Socket
 #   - HTTP -> HTTPS Redirect ist in Traefik global aktiviert (nicht hier noetig)
@@ -6,18 +6,35 @@
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        # Echte Secrets kommen zur Runtime ueber environment, hier nur fuer Build.
+        PAYLOAD_SECRET: ${PAYLOAD_SECRET:-build-placeholder}
+        DATABASE_URI: file:./data/payload.db
     image: fristd-bau-website:latest
     container_name: fristd-bau-website
     restart: unless-stopped
+    environment:
+      # PAYLOAD_SECRET MUSS in .env stehen (lange zufaellige Zeichenfolge).
+      # Wird zum Signieren von JWT-Cookies benutzt.
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+      DATABASE_URI: file:./data/payload.db
+      # Diese URL nutzt Payload fuer Cookies, Mails (spaeter), Self-Links.
+      NEXT_PUBLIC_SERVER_URL: https://neu.fristd-bau.com
+    volumes:
+      # DB und Medien persistent halten - sonst killt jeder Container-Rebuild die Inhalte
+      - fristd-data:/app/data
+      - fristd-media:/app/media
     labels:
       - "traefik.enable=true"
       # Solange fristd-bau.com noch auf Mittwald zeigt: nur die Subdomain.
-      # Beim Cutover (DNS auf VPS umlegen) die zweite Zeile aktiv setzen,
-      # die erste loeschen, und Compose neu deployen.
       - "traefik.http.routers.fristd-web.rule=Host(`neu.fristd-bau.com`)"
-      # - "traefik.http.routers.fristd-web.rule=Host(`neu.fristd-bau.com`) || Host(`fristd-bau.com`) || Host(`www.fristd-bau.com`)"
       - "traefik.http.routers.fristd-web.entrypoints=websecure"
       - "traefik.http.routers.fristd-web.tls=true"
       - "traefik.http.routers.fristd-web.tls.certresolver=letsencrypt"
-      - "traefik.http.services.fristd-web.loadbalancer.server.port=80"
+      - "traefik.http.services.fristd-web.loadbalancer.server.port=3000"
+
+volumes:
+  fristd-data:
+  fristd-media:

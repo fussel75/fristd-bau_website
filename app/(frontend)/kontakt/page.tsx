@@ -1,5 +1,6 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { getSettingsOrDefault } from '@/src/lib/data';
 
 export const metadata = {
   title: 'Kontakt — FriStD-Bau ZuB GmbH & Co. KG',
@@ -26,10 +27,11 @@ const labelStyle: React.CSSProperties = {
   marginBottom: 7,
 };
 
-export default function KontaktPage() {
+export default async function KontaktPage() {
+  const settings = await getSettingsOrDefault();
   return (
     <div>
-      <Header active="kontakt" />
+      <Header active="kontakt" settings={settings} />
 
       {/* INTRO */}
       <section
@@ -448,7 +450,7 @@ export default function KontaktPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

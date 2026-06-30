@@ -2,6 +2,15 @@ node_modules/
 .next/
 out/
 build/
+.env
 .env*.local
 *.log
 .DS_Store
+# Payload persistenz
+data/
+media/
+# Auto-generierte Payload-Files
+src/payload-types.ts
+app/(payload)/admin/importMap.js
+
+tsconfig.tsbuildinfo

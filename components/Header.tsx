@@ -10,7 +10,19 @@ const NAV: { key: NavKey; label: string; href: string }[] = [
   { key: 'kontakt', label: 'Kontakt', href: '/kontakt' },
 ];
 
-export function Header({ active }: { active: NavKey }) {
+type Settings = {
+  companyName: string;
+  phone: string;
+  phoneLink: string;
+};
+
+export function Header({
+  active,
+  settings,
+}: {
+  active: NavKey;
+  settings: Settings;
+}) {
   return (
     <header
       style={{
@@ -41,7 +53,7 @@ export function Header({ active }: { active: NavKey }) {
         >
           <img
             src="/fristd-logo.jpg"
-            alt="FriStD-Bau ZuB GmbH & Co. KG"
+            alt={settings.companyName}
             style={{ height: 'clamp(36px, 5vw, 48px)', width: 'auto', display: 'block' }}
           />
         </Link>
@@ -83,7 +95,7 @@ export function Header({ active }: { active: NavKey }) {
           }}
         >
           <a
-            href="tel:+494038674565"
+            href={`tel:${settings.phoneLink}`}
             style={{
               textDecoration: 'none',
               color: '#2E2F31',
@@ -92,7 +104,7 @@ export function Header({ active }: { active: NavKey }) {
               whiteSpace: 'nowrap',
             }}
           >
-            040 / 38 67 45 65
+            {settings.phone}
           </a>
           <Link
             href="/kontakt"

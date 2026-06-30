@@ -1,6 +1,7 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ReferenzenGallery, RefProject } from '@/components/ReferenzenGallery';
+import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape } from '@/src/lib/data';
 
 export const metadata = {
   title: 'Referenzen — FriStD-Bau ZuB GmbH & Co. KG',
@@ -83,10 +84,34 @@ const PROJECTS: RefProject[] = [
   },
 ];
 
-export default function ReferenzenPage() {
+export default async function ReferenzenPage() {
+  const [settings, dbRefs] = await Promise.all([
+    getSettingsOrDefault(),
+    getReferences(),
+  ]);
+  const projects: RefProject[] =
+    dbRefs.length > 0
+      ? dbRefs.map((r) => {
+          const ref = r as {
+            title?: string;
+            category?: string;
+            location?: string;
+            year?: string;
+            image?: MediaShape;
+          };
+          return {
+            title: ref.title ?? '',
+            cat: ref.category ?? '',
+            loc: ref.location ?? '',
+            year: ref.year ?? '',
+            img: mediaUrl(ref.image, 'card'),
+            alt: ref.image?.alt ?? ref.title ?? '',
+          };
+        })
+      : PROJECTS;
   return (
     <div>
-      <Header active="referenzen" />
+      <Header active="referenzen" settings={settings} />
 
       {/* INTRO + FILTER */}
       <section
@@ -157,7 +182,7 @@ export default function ReferenzenPage() {
           padding: '0 clamp(20px, 4vw, 36px) clamp(56px, 8vw, 96px)',
         }}
       >
-        <ReferenzenGallery projects={PROJECTS} />
+        <ReferenzenGallery projects={projects} />
       </section>
 
       {/* KONTAKT BAND */}
@@ -211,7 +236,7 @@ export default function ReferenzenPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { RotatingWord } from '@/components/RotatingWord';
+import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape } from '@/src/lib/data';
 
 export const metadata = {
   title:
@@ -96,10 +97,25 @@ const PROCESS = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [settings, featuredRefs] = await Promise.all([
+    getSettingsOrDefault(),
+    getReferences({ featured: true, limit: 5 }),
+  ]);
+  // Wenn CMS leer: nutze die hartcodierte Default-Auswahl
+  const refTeasers =
+    featuredRefs.length > 0
+      ? featuredRefs.map((r) => ({
+          cat: (r as { category?: string }).category ?? '',
+          title: (r as { title?: string }).title ?? '',
+          img: mediaUrl((r as { image?: MediaShape }).image, 'card'),
+        }))
+      : REFERENCE_TEASERS;
+  const stats = settings.stats;
+
   return (
     <div>
-      <Header active="start" />
+      <Header active="start" settings={settings} />
 
       {/* HERO + KEYFRAMES */}
       <style
@@ -234,51 +250,21 @@ export default function HomePage() {
                 flexWrap: 'wrap',
               }}
             >
-              <div>
-                <div
-                  style={{
-                    fontFamily: "'Archivo', sans-serif",
-                    fontWeight: 800,
-                    fontSize: 'clamp(22px, 2.4vw, 28px)',
-                    color: '#2E2F31',
-                  }}
-                >
-                  15+
+              {stats.map((s, i) => (
+                <div key={i}>
+                  <div
+                    style={{
+                      fontFamily: "'Archivo', sans-serif",
+                      fontWeight: 800,
+                      fontSize: 'clamp(22px, 2.4vw, 28px)',
+                      color: s.highlight ? '#D2992C' : '#2E2F31',
+                    }}
+                  >
+                    {s.value}
+                  </div>
+                  <div style={{ fontSize: 13, color: '#8A8A8C' }}>{s.label}</div>
                 </div>
-                <div style={{ fontSize: 13, color: '#8A8A8C' }}>
-                  Jahre Erfahrung
-                </div>
-              </div>
-              <div>
-                <div
-                  style={{
-                    fontFamily: "'Archivo', sans-serif",
-                    fontWeight: 800,
-                    fontSize: 'clamp(22px, 2.4vw, 28px)',
-                    color: '#2E2F31',
-                  }}
-                >
-                  12+
-                </div>
-                <div style={{ fontSize: 13, color: '#8A8A8C' }}>
-                  Gewerke aus einer Hand
-                </div>
-              </div>
-              <div>
-                <div
-                  style={{
-                    fontFamily: "'Archivo', sans-serif",
-                    fontWeight: 800,
-                    fontSize: 'clamp(22px, 2.4vw, 28px)',
-                    color: '#D2992C',
-                  }}
-                >
-                  ★ 4,8
-                </div>
-                <div style={{ fontSize: 13, color: '#8A8A8C' }}>
-                  Kunden-Bewertung
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <img
@@ -610,7 +596,7 @@ export default function HomePage() {
               scrollSnapType: 'x mandatory',
             }}
           >
-            {REFERENCE_TEASERS.map((r) => (
+            {refTeasers.map((r) => (
               <div
                 key={r.img}
                 style={{
@@ -1037,7 +1023,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }
