@@ -12,7 +12,11 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fristd-web.rule=Host(`neu.fristd-bau.com`) || Host(`fristd-bau.com`) || Host(`www.fristd-bau.com`)"
+      # Solange fristd-bau.com noch auf Mittwald zeigt: nur die Subdomain.
+      # Beim Cutover (DNS auf VPS umlegen) die zweite Zeile aktiv setzen,
+      # die erste loeschen, und Compose neu deployen.
+      - "traefik.http.routers.fristd-web.rule=Host(`neu.fristd-bau.com`)"
+      # - "traefik.http.routers.fristd-web.rule=Host(`neu.fristd-bau.com`) || Host(`fristd-bau.com`) || Host(`www.fristd-bau.com`)"
       - "traefik.http.routers.fristd-web.entrypoints=websecure"
       - "traefik.http.routers.fristd-web.tls=true"
       - "traefik.http.routers.fristd-web.tls.certresolver=letsencrypt"
