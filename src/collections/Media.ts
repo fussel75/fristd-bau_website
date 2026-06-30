@@ -1,8 +1,7 @@
 import type { CollectionConfig } from 'payload';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
-const dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = process.cwd();
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -20,8 +19,8 @@ export const Media: CollectionConfig = {
       'Bilder fuer die Website. Beim Upload Alt-Text setzen (SEO + Barrierefreiheit). Focal Point definiert wo der Bild-Fokus beim Zuschnitt liegen soll.',
   },
   upload: {
-    // Upload-Ordner (Volume in Docker, lokal: ./media)
-    staticDir: path.resolve(dirname, '../../media'),
+    // Upload-Ordner (Volume in Docker = /app/media)
+    staticDir: path.resolve(projectRoot, 'media'),
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/avif'],
     // Focal point: Punkt der beim Beschnitt der Hauptfokus bleibt
     focalPoint: true,

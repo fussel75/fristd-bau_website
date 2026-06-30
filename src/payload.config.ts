@@ -1,5 +1,4 @@
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { buildConfig } from 'payload';
 import { sqliteAdapter } from '@payloadcms/db-sqlite';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
@@ -14,7 +13,10 @@ import { References } from './collections/References';
 import { Jobs } from './collections/Jobs';
 import { SettingsGlobal } from './globals/Settings';
 
-const dirname = path.dirname(fileURLToPath(import.meta.url));
+// Projekt-Root absolut. process.cwd() ist beim Build /app, bei runtime /app
+// (Docker WORKDIR). Falls jemand das Repo lokal mit anderem CWD started,
+// faellt es auf den klassischen Pfad zurueck.
+const projectRoot = process.cwd();
 
 export default buildConfig({
   admin: {
@@ -29,7 +31,7 @@ export default buildConfig({
   editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    outputFile: path.resolve(projectRoot, 'src/payload-types.ts'),
   },
   db: sqliteAdapter({
     client: {

@@ -1,6 +1,6 @@
 import 'server-only';
 import { getPayload as getPayloadInstance } from 'payload';
-import config from '../payload.config';
+import config from '@payload-config';
 
 let cached: Awaited<ReturnType<typeof getPayloadInstance>> | null = null;
 
