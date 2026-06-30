@@ -3,6 +3,7 @@ import { Footer } from '@/components/Footer';
 import { FaqAccordion, FaqItem } from '@/components/FaqAccordion';
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
 import { LeistungenSidebar, SidebarItem } from '@/components/LeistungenSidebar';
+import { getSettingsOrDefault } from '@/src/lib/data';
 
 export const metadata = {
   title: 'Leistungen — FriStD-Bau ZuB GmbH & Co. KG',
@@ -122,10 +123,11 @@ function MetaCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function LeistungenPage() {
+export default async function LeistungenPage() {
+  const settings = await getSettingsOrDefault();
   return (
     <div>
-      <Header active="leistungen" />
+      <Header active="leistungen" settings={settings} />
 
       {/* PAGE INTRO */}
       <section
@@ -481,7 +483,7 @@ export default function LeistungenPage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

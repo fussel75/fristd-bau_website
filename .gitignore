@@ -13,3 +13,4 @@ media/
 src/payload-types.ts
 app/(payload)/admin/importMap.js
 
+tsconfig.tsbuildinfo

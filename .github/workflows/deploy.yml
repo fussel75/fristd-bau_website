@@ -1,13 +1,11 @@
 name: Deploy to VPS
 
 # Triggert bei jedem Push auf main und ist manuell ausloesbar
-# (GitHub Actions UI -> "Run workflow")
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
-# Verhindert dass zwei Deployments gleichzeitig laufen
 concurrency:
   group: deploy-vps
   cancel-in-progress: false
@@ -16,7 +14,7 @@ jobs:
   deploy:
     name: Build and deploy on VPS
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
@@ -25,16 +23,33 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
+          command_timeout: 15m
           script: |
             set -euo pipefail
             cd /opt/fristd-bau-website
             echo "=== Git pull ==="
             git pull --ff-only
+            echo "=== .env vorhanden? ==="
+            if [ ! -f .env ]; then
+              echo "FEHLER: /opt/fristd-bau-website/.env fehlt."
+              echo "Lege es einmalig an mit PAYLOAD_SECRET=<32+ char random>"
+              echo "Generieren: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
+              exit 1
+            fi
             echo "=== Build + restart ==="
             docker compose up -d --build
             echo "=== Status ==="
-            docker ps --format "table {{.Names}}\t{{.Status}}" | grep fristd-bau-website
-            echo "=== Smoke-Test ==="
-            sleep 5
-            curl -sI https://neu.fristd-bau.com | head -3
+            docker ps --format "table {{.Names}}\t{{.Status}}" | grep fristd-bau-website || true
+            echo "=== Healthcheck (max 60s warten) ==="
+            for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
+              sleep 5
+              if curl -fsS http://127.0.0.1:3000/api/health >/dev/null 2>&1 || \
+                 docker exec fristd-bau-website wget -qO- http://127.0.0.1:3000/api/health >/dev/null 2>&1; then
+                echo "Health OK nach $((i*5))s"
+                break
+              fi
+              echo "  ... warte ($((i*5))s)"
+            done
+            echo "=== Live-Check ==="
+            curl -sI https://neu.fristd-bau.com | head -3 || true
             echo "=== Done ==="

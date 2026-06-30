@@ -1,6 +1,16 @@
 import Link from 'next/link';
 
-export function Footer() {
+type Settings = {
+  companyName: string;
+  phone: string;
+  email: string;
+  address: string;
+  footerTagline: string;
+  legalRegistration: string;
+  copyright: string;
+};
+
+export function Footer({ settings }: { settings: Settings }) {
   return (
     <footer style={{ background: '#2E2F31', color: '#B6B6B8' }}>
       <div
@@ -22,7 +32,7 @@ export function Footer() {
           <div style={{ minWidth: 0 }}>
             <img
               src="/fristd-logo-light.png"
-              alt="FriStD-Bau"
+              alt={settings.companyName}
               style={{
                 height: 'clamp(36px, 5vw, 48px)',
                 width: 'auto',
@@ -39,8 +49,7 @@ export function Footer() {
                 maxWidth: 320,
               }}
             >
-              FriStD-Bau ZuB GmbH &amp; Co. KG · Zimmerei, Dachdeckerei &amp; Baufirma
-              in Hamburg-Bramfeld. Holzbau vom Feinsten.
+              {settings.footerTagline}
             </p>
           </div>
 
@@ -59,13 +68,15 @@ export function Footer() {
               Kontakt
             </div>
             <div style={{ fontSize: 14, lineHeight: 1.9 }}>
-              Haldesdorfer Str. 44
+              {settings.address.split('\n').map((line, i) => (
+                <span key={i}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+              {settings.phone}
               <br />
-              22179 Hamburg
-              <br />
-              040 / 38 67 45 65
-              <br />
-              post@fristd-bau.com
+              {settings.email}
             </div>
           </div>
 
@@ -110,7 +121,7 @@ export function Footer() {
               <Link href="/impressum" style={footerLink}>Impressum</Link>
               <Link href="/datenschutz" style={footerLink}>Datenschutz</Link>
               <Link href="/widerrufsrecht" style={footerLink}>Widerrufsrecht</Link>
-              <div>HRA 112897 · Hamburg</div>
+              <div>{settings.legalRegistration}</div>
             </div>
           </div>
         </div>
@@ -126,8 +137,20 @@ export function Footer() {
             flexWrap: 'wrap',
           }}
         >
-          <div>© 2026 FriStD-Bau ZuB GmbH &amp; Co. KG — Alle Rechte vorbehalten.</div>
-          <div>Konzeptentwurf</div>
+          <div>{settings.copyright}</div>
+          {/* Versteckter Admin-Link — bewusst dezent. */}
+          <Link
+            href="/admin"
+            style={{
+              color: '#5A5B5D',
+              textDecoration: 'none',
+              fontSize: 12,
+            }}
+            aria-label="Administrationsbereich"
+            title="Admin-Login"
+          >
+            ·
+          </Link>
         </div>
       </div>
     </footer>

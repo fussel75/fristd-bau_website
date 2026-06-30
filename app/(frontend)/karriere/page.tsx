@@ -1,5 +1,6 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { getSettingsOrDefault, getActiveJobs } from '@/src/lib/data';
 
 export const metadata = {
   title: 'Karriere — FriStD-Bau ZuB GmbH & Co. KG',
@@ -70,10 +71,33 @@ const JOBS = [
   },
 ];
 
-export default function KarrierePage() {
+export default async function KarrierePage() {
+  const [settings, dbJobs] = await Promise.all([
+    getSettingsOrDefault(),
+    getActiveJobs(),
+  ]);
+  const jobs =
+    dbJobs.length > 0
+      ? dbJobs.map((j) => {
+          const job = j as {
+            title?: string;
+            meta?: string;
+            description?: string;
+            tags?: Array<{ label?: string }>;
+            applyEmail?: string;
+          };
+          return {
+            title: job.title ?? '',
+            meta: job.meta ?? '',
+            desc: job.description ?? '',
+            tags: (job.tags ?? []).map((t) => t.label ?? '').filter(Boolean),
+            mailto: `mailto:${job.applyEmail ?? 'post@fristd-bau.com'}?subject=Bewerbung%20${encodeURIComponent(job.title ?? '')}`,
+          };
+        })
+      : JOBS;
   return (
     <div>
-      <Header active="karriere" />
+      <Header active="karriere" settings={settings} />
 
       {/* PULSE-ANIMATION KEYFRAMES */}
       <style
@@ -315,7 +339,7 @@ export default function KarrierePage() {
         </h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {JOBS.map((j) => (
+          {jobs.map((j) => (
             <div
               key={j.title}
               style={{
@@ -430,7 +454,7 @@ export default function KarrierePage() {
         </div>
       </section>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }
