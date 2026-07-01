@@ -138,18 +138,17 @@ export function Footer({ settings }: { settings: Settings }) {
           }}
         >
           <div>{settings.copyright}</div>
-          {/* Versteckter Admin-Link — bewusst dezent. */}
+          {/* Admin-Login — unauffaellig aber findbar. */}
           <Link
             href="/admin"
             style={{
-              color: '#5A5B5D',
+              color: '#8A8A8C',
               textDecoration: 'none',
               fontSize: 12,
             }}
             aria-label="Administrationsbereich"
-            title="Admin-Login"
           >
-            ·
+            Login
           </Link>
         </div>
       </div>
