@@ -15,8 +15,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-# PAYLOAD_SECRET wird zur Build-Zeit erwartet, ist aber nicht sensibel da
-# der Build keinen Server-Start macht. Echter Secret kommt zur Runtime.
 ARG PAYLOAD_SECRET=build-placeholder
 ARG DATABASE_URI=file:./data/payload.db
 ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
@@ -35,19 +33,18 @@ RUN apk add --no-cache wget && \
     addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Standalone-Output enthaelt minimale Server-Files
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Kein Standalone-Output mehr: wir kopieren .next, node_modules und den Source-
+# Code, damit Payload zur Runtime volle drizzle-kit/CLI-Werkzeuge hat (fuer
+# push:true Schema-Sync und Payload-CLI).
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/next.config.mjs ./next.config.mjs
+COPY --from=builder --chown=nextjs:nodejs /app/src ./src
+COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
 
-# Extern gehaltene Native-Packages (aus serverExternalPackages) werden vom
-# Standalone-Tracer nicht mit-kopiert. Wir kopieren sie hier separat.
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@libsql ./node_modules/@libsql
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/libsql ./node_modules/libsql
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/sharp ./node_modules/sharp
-
-# Persistenz-Verzeichnisse fuer DB und Bilder-Uploads (gehoeren ueber Volumes
-# nach aussen, damit Container-Neubau die Inhalte nicht killt)
+# Persistenz-Verzeichnisse fuer DB und Bilder-Uploads (via Volumes)
 RUN mkdir -p /app/data /app/media && chown -R nextjs:nodejs /app/data /app/media
 
 USER nextjs
@@ -56,4 +53,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD wget -qO- http://127.0.0.1:3000/api/health >/dev/null 2>&1 || exit 1
 
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start"]

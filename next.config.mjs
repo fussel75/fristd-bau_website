@@ -3,10 +3,9 @@ import { withPayload } from '@payloadcms/next/withPayload';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
-  // Native Packages nicht bundlen - sie werden zur Runtime aus node_modules
-  // resolved. libsql hat platformspezifische .node-Binaries, sharp Prebuilds -
-  // beide funktionieren nur wenn sie extern bleiben.
+  // Kein standalone-Output: Payload's push:true (drizzle-kit) und diverse CLI-
+  // Tools brauchen die volle node_modules zur Runtime. Groesseres Image (~450MB
+  // statt ~200MB) aber deutlich weniger Fallstricke.
   serverExternalPackages: [
     'libsql',
     '@libsql/client',
