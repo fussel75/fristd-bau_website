@@ -4,6 +4,9 @@ import { Footer } from '@/components/Footer';
 import { RotatingWord } from '@/components/RotatingWord';
 import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape } from '@/src/lib/data';
 
+// Immer server-rendern mit aktuellen CMS-Daten (keine Static-Cache-Falle).
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title:
     'FriStD-Bau ZuB GmbH & Co. KG — Zimmerei, Dachdeckerei & Baufirma in Hamburg',

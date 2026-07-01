@@ -4,6 +4,8 @@ import { FaqAccordion, FaqItem } from '@/components/FaqAccordion';
 import { LeistungenSidebar, SidebarItem } from '@/components/LeistungenSidebar';
 import { getSettingsOrDefault } from '@/src/lib/data';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Leistungen — FriStD-Bau ZuB GmbH & Co. KG',
   description:

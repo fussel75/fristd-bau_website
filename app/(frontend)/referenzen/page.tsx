@@ -3,6 +3,8 @@ import { Footer } from '@/components/Footer';
 import { ReferenzenGallery, RefProject } from '@/components/ReferenzenGallery';
 import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape } from '@/src/lib/data';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Referenzen — FriStD-Bau ZuB GmbH & Co. KG',
   description:

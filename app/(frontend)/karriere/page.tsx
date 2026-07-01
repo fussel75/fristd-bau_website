@@ -2,6 +2,8 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { getSettingsOrDefault, getActiveJobs } from '@/src/lib/data';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Karriere — FriStD-Bau ZuB GmbH & Co. KG',
   description:
