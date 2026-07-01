@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { getSettingsOrDefault, getActiveJobs } from '@/src/lib/data';
+import { getSettingsOrDefault, getActiveJobs, getPageHero } from '@/src/lib/data';
 
 export const dynamic = 'force-dynamic';
 
@@ -74,9 +74,15 @@ const JOBS = [
 ];
 
 export default async function KarrierePage() {
-  const [settings, dbJobs] = await Promise.all([
+  const [settings, dbJobs, hero] = await Promise.all([
     getSettingsOrDefault(),
     getActiveJobs(),
+    getPageHero('karriere', {
+      eyebrow: 'Karriere',
+      headline: 'Komm zu uns ins Team.',
+      subline:
+        'Wir suchen Verstärkung im Hamburger Holzbau — keine Sorge, du bist eingeplant. Bei FriStD-Bau arbeitest du mit modernem Werkzeug an spannenden Projekten in einem eingespielten Team.',
+    }),
   ]);
   const jobs =
     dbJobs.length > 0
@@ -150,7 +156,7 @@ export default async function KarrierePage() {
                   display: 'inline-block',
                 }}
               />
-              Karriere
+              {hero.eyebrow}
             </div>
             <h1
               style={{
@@ -160,9 +166,10 @@ export default async function KarrierePage() {
                 lineHeight: 1.04,
                 letterSpacing: '-0.03em',
                 margin: '0 0 22px',
+                whiteSpace: 'pre-line',
               }}
             >
-              Komm zu uns ins Team.
+              {hero.headline}
             </h1>
             <p
               style={{
@@ -173,9 +180,7 @@ export default async function KarrierePage() {
                 maxWidth: 480,
               }}
             >
-              Wir suchen Verstärkung im Hamburger Holzbau — keine Sorge, du bist
-              eingeplant. Bei FriStD-Bau arbeitest du mit modernem Werkzeug an
-              spannenden Projekten in einem eingespielten Team.
+              {hero.subline}
             </p>
             <a
               href="#stellen"

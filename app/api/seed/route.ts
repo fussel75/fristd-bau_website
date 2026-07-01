@@ -162,7 +162,86 @@ async function runSeed(): Promise<Record<string, unknown>> {
     log.push(`Jobs: ${existingJobs.totalDocs} bereits vorhanden - skip`);
   }
 
-  return { ok: true, refsCreated, jobsCreated, log };
+  // Pages (Hero-Texte pro Seite)
+  const existingPages = await payload.find({ collection: 'pages', limit: 1 });
+  let pagesCreated = 0;
+  if (existingPages.totalDocs === 0) {
+    const PAGES = [
+      {
+        title: 'Start',
+        slug: 'start',
+        metaDescription:
+          'Holzbau vom Feinsten in Hamburg-Bramfeld: Neubau, Anbau, Sanierung, Dach, Energetik und Innenausbau aus einer Hand.',
+        hero: {
+          eyebrow: 'Wir bauen. Vom Feinsten. · Hamburg',
+          headline: 'Ihr Bauvorhaben.\nVom Plan bis zum\nfertigen',
+          subline:
+            'Zimmerei, Dachdeckerei & Baufirma aus Hamburg-Bramfeld. Als Generalunternehmer planen und realisieren wir jeden Schritt — ganzheitlich und in Holz.',
+        },
+      },
+      {
+        title: 'Leistungen',
+        slug: 'leistungen',
+        metaDescription:
+          'Drei Meister-Disziplinen unter einem Dach: Zimmerei & Holzbau, Dachdeckerei & Klempnerei, Heizung, Sanitär & Wärmepumpen. Plus eigene Planung und Hausanschlüsse.',
+        hero: {
+          eyebrow: 'Leistungen',
+          headline: 'Drei Meister-Disziplinen.\nEin Ansprechpartner.',
+          subline:
+            'Zimmerei & Holzbau, Dachdeckerei & Klempnerei, Heizung & Sanitär — alle drei Gewerke mit eigenem Meister. Dazu eigene Planungs­abteilung mit Architekten und Statikern, und Zulassung für Hamburg Wasser. Vom Bauantrag bis zur Wärmepumpe — alles aus einem Haus.',
+        },
+      },
+      {
+        title: 'Referenzen',
+        slug: 'referenzen',
+        metaDescription:
+          'Eine Auswahl unserer Bauprojekte aus Hamburg und Umgebung: Neubau, Aufstockung, Sanierung, Dach und mehr.',
+        hero: {
+          eyebrow: 'Referenzen',
+          headline: 'Holzbau, der\nsich sehen lässt.',
+          subline:
+            'Eine Auswahl unserer Projekte aus Hamburg und Umgebung — gefiltert nach Gewerk.',
+        },
+      },
+      {
+        title: 'Karriere',
+        slug: 'karriere',
+        metaDescription:
+          'Komm zu uns ins Team. Zimmerergeselle und Dachdeckergeselle gesucht. Hamburger Holzbau-Betrieb mit fairer Bezahlung und sicherer Anstellung.',
+        hero: {
+          eyebrow: 'Karriere',
+          headline: 'Komm zu uns ins Team.',
+          subline:
+            'Wir suchen Verstärkung im Hamburger Holzbau — keine Sorge, du bist eingeplant. Bei FriStD-Bau arbeitest du mit modernem Werkzeug an spannenden Projekten in einem eingespielten Team.',
+        },
+      },
+      {
+        title: 'Kontakt',
+        slug: 'kontakt',
+        metaDescription:
+          'Sprechen Sie uns an: Haldesdorfer Str. 44, 22179 Hamburg-Bramfeld. Telefon 040 / 38 67 45 65, E-Mail post@fristd-bau.com.',
+        hero: {
+          eyebrow: 'Kontakt',
+          headline: 'Sprechen wir über\nIhr Projekt.',
+          subline:
+            'Ob ganzer Neubau oder einzelnes Gewerk — wir beraten Sie unverbindlich und erstellen Ihr Angebot.',
+        },
+      },
+    ];
+    for (const p of PAGES) {
+      try {
+        await payload.create({ collection: 'pages', data: p });
+        pagesCreated++;
+        log.push(`Seite: ${p.title}`);
+      } catch (e: any) {
+        log.push(`FEHLER Seite "${p.title}": ${e?.message || e}`);
+      }
+    }
+  } else {
+    log.push(`Pages: ${existingPages.totalDocs} bereits vorhanden - skip`);
+  }
+
+  return { ok: true, refsCreated, jobsCreated, pagesCreated, log };
 }
 
 async function handle(req: NextRequest) {

@@ -1,7 +1,7 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ReferenzenGallery, RefProject } from '@/components/ReferenzenGallery';
-import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape } from '@/src/lib/data';
+import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape, getPageHero } from '@/src/lib/data';
 
 export const dynamic = 'force-dynamic';
 
@@ -87,9 +87,15 @@ const PROJECTS: RefProject[] = [
 ];
 
 export default async function ReferenzenPage() {
-  const [settings, dbRefs] = await Promise.all([
+  const [settings, dbRefs, hero] = await Promise.all([
     getSettingsOrDefault(),
     getReferences(),
+    getPageHero('referenzen', {
+      eyebrow: 'Referenzen',
+      headline: 'Holzbau, der\nsich sehen lässt.',
+      subline:
+        'Eine Auswahl unserer Projekte aus Hamburg und Umgebung — gefiltert nach Gewerk.',
+    }),
   ]);
   const projects: RefProject[] =
     dbRefs.length > 0
@@ -145,7 +151,7 @@ export default async function ReferenzenPage() {
               display: 'inline-block',
             }}
           />
-          Referenzen
+          {hero.eyebrow}
         </div>
         <h1
           style={{
@@ -156,11 +162,10 @@ export default async function ReferenzenPage() {
             letterSpacing: '-0.03em',
             margin: '0 0 18px',
             maxWidth: 880,
+            whiteSpace: 'pre-line',
           }}
         >
-          Holzbau, der
-          <br />
-          sich sehen lässt.
+          {hero.headline}
         </h1>
         <p
           style={{
@@ -171,8 +176,7 @@ export default async function ReferenzenPage() {
             margin: '0 0 40px',
           }}
         >
-          Eine Auswahl unserer Projekte aus Hamburg und Umgebung — gefiltert nach
-          Gewerk.
+          {hero.subline}
         </p>
       </section>
 

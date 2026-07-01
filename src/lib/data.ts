@@ -48,6 +48,26 @@ export async function getPage(slug: string) {
   }
 }
 
+export type PageHeroDefaults = {
+  eyebrow?: string;
+  headline?: string;
+  subline?: string;
+};
+
+// Holt den Hero-Bereich einer Seite aus dem CMS, faellt auf hartcodierte
+// Defaults zurueck falls die Seite nicht existiert oder Felder leer sind.
+export async function getPageHero(slug: string, defaults: PageHeroDefaults) {
+  const p = (await getPage(slug)) as {
+    hero?: { eyebrow?: string; headline?: string; subline?: string };
+  } | null;
+  const h = p?.hero ?? {};
+  return {
+    eyebrow: h.eyebrow || defaults.eyebrow || '',
+    headline: h.headline || defaults.headline || '',
+    subline: h.subline || defaults.subline || '',
+  };
+}
+
 export async function getReferences(opts?: { featured?: boolean; limit?: number }) {
   try {
     const payload = await getPayload();

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { RotatingWord } from '@/components/RotatingWord';
-import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape } from '@/src/lib/data';
+import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape, getPageHero } from '@/src/lib/data';
 
 // Immer server-rendern mit aktuellen CMS-Daten (keine Static-Cache-Falle).
 export const dynamic = 'force-dynamic';
@@ -103,9 +103,15 @@ const PROCESS = [
 ];
 
 export default async function HomePage() {
-  const [settings, featuredRefs] = await Promise.all([
+  const [settings, featuredRefs, hero] = await Promise.all([
     getSettingsOrDefault(),
     getReferences({ featured: true, limit: 5 }),
+    getPageHero('start', {
+      eyebrow: 'Wir bauen. Vom Feinsten. · Hamburg',
+      headline: 'Ihr Bauvorhaben.\nVom Plan bis zum\nfertigen',
+      subline:
+        'Zimmerei, Dachdeckerei & Baufirma aus Hamburg-Bramfeld. Als Generalunternehmer planen und realisieren wir jeden Schritt — ganzheitlich und in Holz.',
+    }),
   ]);
   // Wenn CMS leer: nutze die hartcodierte Default-Auswahl
   const refTeasers =
@@ -176,7 +182,7 @@ export default async function HomePage() {
                   display: 'inline-block',
                 }}
               />
-              Wir bauen. Vom Feinsten. · Hamburg
+              {hero.eyebrow}
             </div>
             <h1
               style={{
@@ -187,13 +193,10 @@ export default async function HomePage() {
                 letterSpacing: '-0.03em',
                 margin: '0 0 24px',
                 color: '#2E2F31',
+                whiteSpace: 'pre-line',
               }}
             >
-              Ihr Bauvorhaben.
-              <br />
-              Vom Plan bis zum
-              <br />
-              fertigen <RotatingWord />
+              {hero.headline} <RotatingWord />
             </h1>
             <p
               style={{
@@ -204,9 +207,7 @@ export default async function HomePage() {
                 margin: '0 0 32px',
               }}
             >
-              Zimmerei, Dachdeckerei &amp; Baufirma aus Hamburg-Bramfeld. Als
-              Generalunternehmer planen und realisieren wir jeden Schritt —
-              ganzheitlich und in Holz.
+              {hero.subline}
             </p>
             <div
               style={{

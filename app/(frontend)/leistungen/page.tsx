@@ -2,7 +2,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { FaqAccordion, FaqItem } from '@/components/FaqAccordion';
 import { LeistungenSidebar, SidebarItem } from '@/components/LeistungenSidebar';
-import { getSettingsOrDefault } from '@/src/lib/data';
+import { getSettingsOrDefault, getPageHero } from '@/src/lib/data';
 
 export const dynamic = 'force-dynamic';
 
@@ -259,7 +259,15 @@ const metaValue: React.CSSProperties = {
 };
 
 export default async function LeistungenPage() {
-  const settings = await getSettingsOrDefault();
+  const [settings, hero] = await Promise.all([
+    getSettingsOrDefault(),
+    getPageHero('leistungen', {
+      eyebrow: 'Leistungen',
+      headline: 'Drei Meister-Disziplinen.\nEin Ansprechpartner.',
+      subline:
+        'Zimmerei & Holzbau, Dachdeckerei & Klempnerei, Heizung & Sanitär — alle drei Gewerke mit eigenem Meister. Dazu eigene Planungs­abteilung mit Architekten und Statikern, und Zulassung für Hamburg Wasser. Vom Bauantrag bis zur Wärmepumpe — alles aus einem Haus.',
+    }),
+  ]);
 
   return (
     <div>
@@ -295,7 +303,7 @@ export default async function LeistungenPage() {
               display: 'inline-block',
             }}
           />
-          Leistungen
+          {hero.eyebrow}
         </div>
         <h1
           style={{
@@ -306,10 +314,10 @@ export default async function LeistungenPage() {
             letterSpacing: '-0.03em',
             margin: '0 0 22px',
             maxWidth: 880,
+            whiteSpace: 'pre-line',
           }}
         >
-          Drei Meister-Disziplinen.<br />
-          Ein Ansprechpartner.
+          {hero.headline}
         </h1>
         <p
           style={{
@@ -320,10 +328,7 @@ export default async function LeistungenPage() {
             margin: 0,
           }}
         >
-          Zimmerei &amp; Holzbau, Dachdeckerei &amp; Klempnerei, Heizung &amp;
-          Sanitär — alle drei Gewerke mit eigenem Meister. Dazu eigene Planungs­abteilung
-          mit Architekten und Statikern, und Zulassung für Hamburg Wasser. Vom Bauantrag
-          bis zur Wärmepumpe — alles aus einem Haus.
+          {hero.subline}
         </p>
       </section>
 

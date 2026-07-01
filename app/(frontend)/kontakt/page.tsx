@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { getSettingsOrDefault } from '@/src/lib/data';
+import { getSettingsOrDefault, getPageHero } from '@/src/lib/data';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +30,15 @@ const labelStyle: React.CSSProperties = {
 };
 
 export default async function KontaktPage() {
-  const settings = await getSettingsOrDefault();
+  const [settings, hero] = await Promise.all([
+    getSettingsOrDefault(),
+    getPageHero('kontakt', {
+      eyebrow: 'Kontakt',
+      headline: 'Sprechen wir über\nIhr Projekt.',
+      subline:
+        'Ob ganzer Neubau oder einzelnes Gewerk — wir beraten Sie unverbindlich und erstellen Ihr Angebot.',
+    }),
+  ]);
   return (
     <div>
       <Header active="kontakt" settings={settings} />
@@ -65,7 +73,7 @@ export default async function KontaktPage() {
               display: 'inline-block',
             }}
           />
-          Kontakt
+          {hero.eyebrow}
         </div>
         <h1
           style={{
@@ -76,11 +84,10 @@ export default async function KontaktPage() {
             letterSpacing: '-0.03em',
             margin: '0 0 18px',
             maxWidth: 880,
+            whiteSpace: 'pre-line',
           }}
         >
-          Sprechen wir über
-          <br />
-          Ihr Projekt.
+          {hero.headline}
         </h1>
         <p
           style={{
@@ -91,8 +98,7 @@ export default async function KontaktPage() {
             margin: 0,
           }}
         >
-          Ob ganzer Neubau oder einzelnes Gewerk — wir beraten Sie unverbindlich und
-          erstellen Ihr Angebot.
+          {hero.subline}
         </p>
       </section>
 
