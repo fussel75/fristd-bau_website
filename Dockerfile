@@ -40,6 +40,12 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Extern gehaltene Native-Packages (aus serverExternalPackages) werden vom
+# Standalone-Tracer nicht mit-kopiert. Wir kopieren sie hier separat.
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@libsql ./node_modules/@libsql
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/libsql ./node_modules/libsql
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/sharp ./node_modules/sharp
+
 # Persistenz-Verzeichnisse fuer DB und Bilder-Uploads (gehoeren ueber Volumes
 # nach aussen, damit Container-Neubau die Inhalte nicht killt)
 RUN mkdir -p /app/data /app/media && chown -R nextjs:nodejs /app/data /app/media
