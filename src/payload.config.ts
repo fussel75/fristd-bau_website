@@ -37,6 +37,10 @@ export default buildConfig({
     client: {
       url: process.env.DATABASE_URI || 'file:./data/payload.db',
     },
+    // Auto-Schema-Sync auch in Production. Fuer eine kleine Marketing-Site mit
+    // seltenen Model-Aenderungen einfacher als manuelle Migrations. Payload
+    // erstellt/aktualisiert die Tabellen beim ersten Start selbstaendig.
+    push: true,
   }),
   // Browser-side image processing fuer Crop + Resize
   sharp,
