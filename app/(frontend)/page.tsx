@@ -12,33 +12,35 @@ export const metadata = {
 };
 
 const MARQUEE_ITEMS = [
-  'Holzbau vom Feinsten',
+  'Wir bauen. Vom Feinsten.',
   'Zimmerei',
   'Dachdeckerei',
-  'Aufstockung',
+  'Heizung & Sanitär',
+  'Wärmepumpen',
   'Sanierung',
-  'Photovoltaik',
-  'Hamburg-Bramfeld',
+  'Erdbau',
+  'Hamburg Wasser zugelassen',
+  'Bramfeld',
 ];
 
 const TEASER_CARDS = [
   {
     num: '01',
-    title: 'Neubau in Holz',
-    desc: 'Eigenheime und Mehrfamilienhäuser im Holzrahmenbau.',
-    href: '/leistungen#neubau',
+    title: 'Zimmerei & Holzbau',
+    desc: 'Neubau, Anbau, Aufstockung und Sanierung im Holzrahmenbau.',
+    href: '/leistungen#holzbau',
+  },
+  {
+    num: '02',
+    title: 'Dachdeckerei & Klempnerei',
+    desc: 'Dachstühle, Eindeckungen, Sanierungen und Klempnerarbeiten.',
+    href: '/leistungen#dachdeckerei',
   },
   {
     num: '03',
-    title: 'Sanierung',
-    desc: 'Behutsame Modernisierung mit Blick auf Bauphysik und Energetik.',
-    href: '/leistungen#sanierung',
-  },
-  {
-    num: '05',
-    title: 'Energetik & PV',
-    desc: 'Photovoltaik, Wärmepumpen und Energieberatung.',
-    href: '/leistungen#energetik',
+    title: 'Heizung, Sanitär & Wärmepumpen',
+    desc: 'Wärmepumpen, Heizungen, Sanitär und PV — Meisterbetrieb für Installations- & Heizungsbau.',
+    href: '/leistungen#heizung',
   },
 ];
 
@@ -171,7 +173,7 @@ export default async function HomePage() {
                   display: 'inline-block',
                 }}
               />
-              Holzbau vom Feinsten · Hamburg
+              Wir bauen. Vom Feinsten. · Hamburg
             </div>
             <h1
               style={{
@@ -306,21 +308,21 @@ export default async function HomePage() {
             {[
               {
                 icon: '⊕',
-                title: 'Generalunternehmer',
+                title: 'Drei Meister-Disziplinen',
                 desc:
-                  'Ein Ansprechpartner für alle Gewerke — wir koordinieren Architekten, Ingenieure und Meisterbetriebe.',
+                  'Zimmerermeister, Dachdeckermeister und Meister für Installations- & Heizungsbau — alle drei Gewerke unter einem Dach.',
               },
               {
                 icon: '◆',
-                title: 'Meisterbetrieb',
+                title: 'Planung im Haus',
                 desc:
-                  'Zimmerermeister Ronny Friedrich — eingetragen in der Handwerkskammer Hamburg. Seit 2011.',
+                  'Eigene Architekten und Statiker — Bauantrag und Ausführungsplanung bis 6 Wohneinheiten ohne externe Schnittstellen.',
               },
               {
                 icon: '◐',
-                title: 'Nachhaltig in Holz',
+                title: 'Alle Hausanschlüsse',
                 desc:
-                  'Energetisch und bauphysikalisch durchdachte Holzbauten — kombiniert mit PV und Wärmepumpe.',
+                  'Zugelassen für Hamburg Wasser sowie Abwasser- und Gasinstallationen. Vom Erdbau bis zur Wärmepumpe.',
               },
             ].map((u) => (
               <div key={u.title}>

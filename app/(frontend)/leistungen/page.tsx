@@ -1,23 +1,141 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { FaqAccordion, FaqItem } from '@/components/FaqAccordion';
-import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
 import { LeistungenSidebar, SidebarItem } from '@/components/LeistungenSidebar';
 import { getSettingsOrDefault } from '@/src/lib/data';
 
 export const metadata = {
   title: 'Leistungen — FriStD-Bau ZuB GmbH & Co. KG',
   description:
-    'Alle Gewerke. Ein Ansprechpartner. Vom Bauantrag bis zur Schlüsselübergabe — Neubau, Anbau, Sanierung, Dach, Energetik und Innenausbau aus einer Hand.',
+    'Drei Meister-Disziplinen unter einem Dach: Zimmerei & Holzbau, Dachdeckerei & Klempnerei, Heizung, Sanitär & Wärmepumpen. Plus eigene Planung und Hausanschlüsse.',
 };
 
-const SIDEBAR: SidebarItem[] = [
-  { id: 'neubau', num: '01', label: 'Neubau in Holz' },
-  { id: 'anbau', num: '02', label: 'Anbau & Aufstockung' },
-  { id: 'sanierung', num: '03', label: 'Sanierung' },
-  { id: 'dach', num: '04', label: 'Dach & Dachdeckerei' },
-  { id: 'energetik', num: '05', label: 'Energetik & PV' },
-  { id: 'innenausbau', num: '06', label: 'Innenausbau' },
+type Hauptbereich = {
+  id: string;
+  num: string;
+  title: string;
+  badge: string;
+  img: string;
+  imgAlt: string;
+  lead: string;
+  items: string[];
+  meta: { label: string; value: string }[];
+};
+
+const HAUPTBEREICHE: Hauptbereich[] = [
+  {
+    id: 'holzbau',
+    num: '01',
+    title: 'Zimmerei & Holzbau',
+    badge: 'Meisterbetrieb Zimmererhandwerk',
+    img: '/images/leistungen/neubau.jpg',
+    imgAlt: 'Neubau im Holzrahmenbau — FriStD-Bau Baustelle',
+    lead:
+      'Vom ersten Skizzengespräch über Bauantrag und Statik bis zur Schlüsselübergabe. Eigenheime und Mehrfamilienhäuser im Holzrahmenbau, Aufstockungen, Sanierungen, Innenausbau und Carports.',
+    items: [
+      'Neubau in Holzrahmenbau',
+      'Anbau & Aufstockung',
+      'Sanierung & energetische Ertüchtigung',
+      'Innenausbau & Trockenbau',
+      'Holz-Carports',
+      'Dachgauben',
+    ],
+    meta: [
+      { label: 'Bauzeit', value: 'ca. 3–12 Monate je Vorhaben' },
+      { label: 'Förderung', value: 'KfW-Effizienzhaus 40 & 55, BAFA' },
+      { label: 'Typisch', value: 'EFH, MFH, Doppelhaus, Aufstockung' },
+    ],
+  },
+  {
+    id: 'dachdeckerei',
+    num: '02',
+    title: 'Dachdeckerei & Klempnerei',
+    badge: 'Meisterbetrieb Dachdeckerhandwerk',
+    img: '/images/leistungen/dach.jpg',
+    imgAlt: 'Dachsanierung am Wohngebäude — FriStD-Bau Dachdecker',
+    lead:
+      'Vom Zimmermeister konstruiert, vom Dachdeckermeister eingedeckt. Dachstühle, Eindeckungen, Sanierungen und Klempnerarbeiten — alles aus einer Hand.',
+    items: [
+      'Dachstuhl & Konstruktion',
+      'Dacheindeckung (Ziegel, Metall, Schiefer)',
+      'Dachsanierung',
+      'Klempnerarbeiten',
+      'Dachflächenfenster',
+      'Carport-Dach',
+    ],
+    meta: [
+      { label: 'Bauzeit', value: 'ca. 2–6 Wochen' },
+      { label: 'Typisch', value: 'Neueindeckung, Dachstuhl-Erneuerung, Sanierung' },
+      { label: 'Inkl.', value: 'Statik, Wärmeschutznachweis' },
+    ],
+  },
+  {
+    id: 'heizung',
+    num: '03',
+    title: 'Heizung, Sanitär & Wärmepumpen',
+    badge: 'Meisterbetrieb Installations- & Heizungsbau',
+    img: '/images/leistungen/energetik.jpg',
+    imgAlt: 'Effizienzhaus mit Holzfassade — FriStD-Bau',
+    lead:
+      'Wärmepumpen, Heizungsanlagen, Sanitärtechnik und Photovoltaik — energiebewusst geplant und ausgeführt vom eigenen Meisterbetrieb. Förderberatung inklusive.',
+    items: [
+      'Wärmepumpen (Luft-Wasser, Sole)',
+      'Heizungsanlagen (Gas, Hybrid)',
+      'Sanitärtechnik & Bad',
+      'Photovoltaik & Solar',
+      'Energieberatung',
+      'Heimautomation',
+    ],
+    meta: [
+      { label: 'Förderung', value: 'BEG, KfW, BAFA' },
+      { label: 'Standards', value: 'KfW-Effizienzhaus 40 & 55' },
+      { label: 'Inkl.', value: 'Energieberatung & Wärmeschutznachweis' },
+    ],
+  },
+];
+
+type Querschnitt = {
+  id: string;
+  title: string;
+  icon: string;
+  trustBadge?: string;
+  lead: string;
+  items: string[];
+};
+
+const QUERSCHNITT: Querschnitt[] = [
+  {
+    id: 'planung',
+    title: 'Planung & Statik',
+    icon: '◇',
+    trustBadge: 'Eigene Architekten & Statiker im Haus',
+    lead:
+      'Architektur, Statik und Bauphysik kommen bei uns aus dem eigenen Büro. Bauanträge, Ausführungsplanung und Statik bis 6 Wohneinheiten — schnelle Wege, keine externen Schnittstellen.',
+    items: [
+      'Architektur',
+      'Statik bis 6 WE',
+      'Bauphysik',
+      'Bauantrag',
+      'Wärmeschutznachweis',
+      'Ausführungsplanung',
+    ],
+  },
+  {
+    id: 'erdbau',
+    title: 'Erdbau & Hausanschlüsse',
+    icon: '◈',
+    trustBadge: 'Zugelassen für Hamburg Wasser',
+    lead:
+      'Erdbau, Bodenplatte und alle Hausanschlüsse. Wir sind zugelassen für die Installation von Wasser-, Abwasser- und Gasanschlüssen — vom Anschluss am Versorger bis ins Haus.',
+    items: [
+      'Erdbau',
+      'Wasseranschluss',
+      'Abwasseranschluss',
+      'Gasanschluss',
+      'Bodenplatte',
+      'Drainage',
+    ],
+  },
 ];
 
 const FAQS: FaqItem[] = [
@@ -30,12 +148,16 @@ const FAQS: FaqItem[] = [
     a: 'Ja, gerne. Wir arbeiten als Generalunternehmer oder als Teil eines Teams.',
   },
   {
-    q: 'Wie lange dauert ein Neubau?',
-    a: 'Ein Einfamilienhaus im Holzrahmenbau dauert ca. 6–12 Monate, abhängig von Größe und Ausstattung.',
+    q: 'Decken Sie wirklich Planung und Bau ab?',
+    a: 'Ja. Architektur und Statik kommen aus unserem eigenen Büro — Bauantrag und Ausführungsplanung bis 6 Wohneinheiten. Ein Ansprechpartner für das gesamte Vorhaben.',
   },
   {
-    q: 'Beraten Sie bei Förderprogrammen?',
-    a: 'Ja, wir beraten zu KfW- und BAFA-Programmen für energieeffizientes Bauen und Sanieren.',
+    q: 'Setzen Sie Wärmepumpen und Heizungen auch ohne Neubau?',
+    a: 'Ja. Wir installieren Wärmepumpen, Heizungen und Sanitäranlagen auch als eigenständige Modernisierung. Förderberatung (BEG/KfW/BAFA) inklusive.',
+  },
+  {
+    q: 'Welche Hausanschlüsse können Sie übernehmen?',
+    a: 'Wir sind zugelassen für Hamburg Wasser sowie Abwasser- und Gasinstallationen. Komplette Hausanschlüsse aus einer Hand.',
   },
   {
     q: 'Welche Region deckt FriStD-Bau ab?',
@@ -43,21 +165,16 @@ const FAQS: FaqItem[] = [
   },
 ];
 
+const SIDEBAR: SidebarItem[] = [
+  ...HAUPTBEREICHE.map((b) => ({ id: b.id, num: b.num, label: b.title })),
+  { id: 'planung', num: '◇', label: 'Planung & Statik' },
+  { id: 'erdbau', num: '◈', label: 'Erdbau & Anschlüsse' },
+];
+
 const sectionWrap: React.CSSProperties = {
   paddingBottom: 'clamp(48px, 7vw, 80px)',
   borderBottom: '1px solid #ECEBE6',
   marginBottom: 'clamp(48px, 7vw, 80px)',
-};
-
-const sectionWrapLast: React.CSSProperties = {
-  paddingBottom: 'clamp(48px, 7vw, 80px)',
-};
-
-const headRow: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'baseline',
-  gap: 16,
-  marginBottom: 18,
 };
 
 const numStyle: React.CSSProperties = {
@@ -92,11 +209,36 @@ const leadParagraph: React.CSSProperties = {
   margin: 0,
 };
 
+const chip: React.CSSProperties = {
+  display: 'inline-block',
+  padding: '6px 14px',
+  borderRadius: 999,
+  background: '#FAF8F4',
+  border: '1px solid #ECEBE6',
+  fontSize: 13,
+  color: '#2E2F31',
+  fontWeight: 500,
+};
+
+const badge: React.CSSProperties = {
+  display: 'inline-block',
+  padding: '4px 12px',
+  borderRadius: 6,
+  background: '#FCEED4',
+  color: '#7A5810',
+  fontSize: 12,
+  fontWeight: 700,
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+};
+
 const metaGrid: React.CSSProperties = {
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
   gap: 16,
-  marginTop: 24,
+  marginTop: 28,
+  paddingTop: 22,
+  borderTop: '1px solid #ECEBE6',
 };
 
 const metaLabel: React.CSSProperties = {
@@ -114,17 +256,9 @@ const metaValue: React.CSSProperties = {
   color: '#2E2F31',
 };
 
-function MetaCell({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <div style={metaLabel}>{label}</div>
-      <div style={metaValue}>{value}</div>
-    </div>
-  );
-}
-
 export default async function LeistungenPage() {
   const settings = await getSettingsOrDefault();
+
   return (
     <div>
       <Header active="leistungen" settings={settings} />
@@ -172,8 +306,7 @@ export default async function LeistungenPage() {
             maxWidth: 880,
           }}
         >
-          Alle Gewerke.
-          <br />
+          Drei Meister-Disziplinen.<br />
           Ein Ansprechpartner.
         </h1>
         <p
@@ -181,16 +314,18 @@ export default async function LeistungenPage() {
             fontSize: 'clamp(16px, 1.6vw, 19px)',
             lineHeight: 1.6,
             color: '#6B6C6F',
-            maxWidth: 640,
+            maxWidth: 700,
             margin: 0,
           }}
         >
-          Vom Bauantrag bis zur Schlüsselübergabe — unsere Kompetenzen greifen
-          ineinander und werden über unser eingespieltes Meister-Netz koordiniert.
+          Zimmerei &amp; Holzbau, Dachdeckerei &amp; Klempnerei, Heizung &amp;
+          Sanitär — alle drei Gewerke mit eigenem Meister. Dazu eigene Planungs­abteilung
+          mit Architekten und Statikern, und Zulassung für Hamburg Wasser. Vom Bauantrag
+          bis zur Wärmepumpe — alles aus einem Haus.
         </p>
       </section>
 
-      {/* TWO-COL: sidebar nav + content */}
+      {/* TWO-COL: sidebar + content */}
       <section
         style={{
           maxWidth: 1280,
@@ -208,181 +343,154 @@ export default async function LeistungenPage() {
           <LeistungenSidebar items={SIDEBAR} />
 
           <div style={{ gridColumn: 'span 2', minWidth: 0 }}>
-            {/* 01 Neubau */}
-            <div id="neubau" style={sectionWrap}>
-              <div style={headRow}>
-                <span style={numStyle}>01</span>
-                <h2 style={h2Style}>Neubau in Holz</h2>
+            {/* HAUPTBEREICHE */}
+            {HAUPTBEREICHE.map((b, i) => (
+              <div
+                key={b.id}
+                id={b.id}
+                style={
+                  i === HAUPTBEREICHE.length - 1 && QUERSCHNITT.length === 0
+                    ? { paddingBottom: 'clamp(48px, 7vw, 80px)' }
+                    : sectionWrap
+                }
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    gap: 16,
+                    marginBottom: 14,
+                  }}
+                >
+                  <span style={numStyle}>{b.num}</span>
+                  <h2 style={h2Style}>{b.title}</h2>
+                </div>
+                <div style={{ marginBottom: 22 }}>
+                  <span style={badge}>{b.badge}</span>
+                </div>
+                <img src={b.img} alt={b.imgAlt} style={slotStyle} />
+                <p style={{ ...leadParagraph, marginBottom: 22 }}>{b.lead}</p>
+                <div
+                  style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 4 }}
+                >
+                  {b.items.map((it) => (
+                    <span key={it} style={chip}>
+                      {it}
+                    </span>
+                  ))}
+                </div>
+                <div style={metaGrid}>
+                  {b.meta.map((m) => (
+                    <div key={m.label}>
+                      <div style={metaLabel}>{m.label}</div>
+                      <div style={metaValue}>{m.value}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <img
-                src="/images/leistungen/neubau.jpg"
-                alt="Neubau in Holz — Holzrahmenbau mit Holzweichfaser-Daemmung"
-                style={slotStyle}
-              />
-              <p style={{ ...leadParagraph, marginBottom: 18 }}>
-                Eigenheime und Mehrfamilienhäuser im Holzrahmenbau — gesamtheitlich
-                geplant. Vom ersten Skizzengespräch über Bauantrag und Statik bis zur
-                Schlüsselübergabe übernehmen wir alle Schritte.
-              </p>
-              <div style={metaGrid}>
-                <MetaCell
-                  label="Enthalten"
-                  value="Holzrahmenbau · Bauplanung · Statik · Bauleitung"
-                />
-                <MetaCell
-                  label="Typisch"
-                  value="Einfamilienhaus, Mehrfamilienhaus, Doppelhaus"
-                />
-                <MetaCell label="Bauzeit" value="ca. 6–12 Monate je Vorhaben" />
-              </div>
-            </div>
+            ))}
 
-            {/* 02 Anbau */}
-            <div id="anbau" style={sectionWrap}>
-              <div style={headRow}>
-                <span style={numStyle}>02</span>
-                <h2 style={h2Style}>Anbau &amp; Aufstockung</h2>
+            {/* QUERSCHNITT BAND */}
+            <div
+              style={{
+                background: '#2E2F31',
+                color: '#fff',
+                borderRadius: 24,
+                padding: 'clamp(32px, 4vw, 48px)',
+                marginBottom: 'clamp(48px, 7vw, 80px)',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: '0.09em',
+                  textTransform: 'uppercase',
+                  color: '#E0AE4E',
+                  marginBottom: 18,
+                }}
+              >
+                Querschnitt — alles was zusätzlich dazugehört
               </div>
-              <img
-                src="/images/leistungen/anbau.jpg"
-                alt="Aufstockung in Holzbauweise"
-                style={slotStyle}
-              />
-              <p style={leadParagraph}>
-                Zusätzlicher Wohnraum und spürbare Wertsteigerung für Ihr
-                Bestandsgebäude — durch leichten Holzbau ohne aufwendige
-                Fundamentarbeit.
-              </p>
-              <div style={metaGrid}>
-                <MetaCell
-                  label="Enthalten"
-                  value="Holzbau · Maurerarbeiten · Statik · Bauantrag"
-                />
-                <MetaCell
-                  label="Typisch"
-                  value="Dachaufstockung, seitlicher Anbau, Erweiterung"
-                />
-                <MetaCell label="Bauzeit" value="ca. 3–6 Monate" />
-              </div>
-            </div>
-
-            {/* 03 Sanierung */}
-            <div id="sanierung" style={sectionWrap}>
-              <div style={headRow}>
-                <span style={numStyle}>03</span>
-                <h2 style={h2Style}>Sanierung</h2>
-              </div>
-              <BeforeAfterSlider
-                beforeSrc="/images/leistungen/sanierung-vorher.jpg"
-                afterSrc="/images/leistungen/sanierung-nachher.jpg"
-                beforeAlt="Sanierung VORHER — Eingang Bestand"
-                afterAlt="Sanierung NACHHER — Mansarddach Aufstockung"
-              />
-              <p style={leadParagraph}>
-                Behutsame Modernisierung mit Blick auf den energetischen und
-                bauphysikalischen Aufbau der Bauteile — für ein gesundes Raumklima
-                und niedrige Betriebskosten.
-              </p>
-              <div style={metaGrid}>
-                <MetaCell
-                  label="Enthalten"
-                  value="WDVS · Bauphysik · Energieberatung · Fenster & Türen"
-                />
-                <MetaCell
-                  label="Typisch"
-                  value="Energetische Sanierung, Dachsanierung, Fassade"
-                />
-                <MetaCell
-                  label="Förderung"
-                  value="Beratung zu KfW & BAFA-Programmen"
-                />
-              </div>
-            </div>
-
-            {/* 04 Dach */}
-            <div id="dach" style={sectionWrap}>
-              <div style={headRow}>
-                <span style={numStyle}>04</span>
-                <h2 style={h2Style}>Dach &amp; Dachdeckerei</h2>
-              </div>
-              <img
-                src="/images/leistungen/dach.jpg"
-                alt="Dachsanierung — Dachdeckerarbeiten am Wohngebaeude"
-                style={slotStyle}
-              />
-              <p style={leadParagraph}>
-                Dachstühle, Dachsanierungen und Carports — handwerklich sauber
-                ausgeführt vom Zimmerermeister. Klempnerarbeiten und Eindeckung aus
-                einer Hand.
-              </p>
-              <div style={metaGrid}>
-                <MetaCell
-                  label="Enthalten"
-                  value="Dachstuhl · Dachdeckung · Klempnerarbeiten · Carport"
-                />
-                <MetaCell
-                  label="Typisch"
-                  value="Neueindeckung, Dachstuhl-Erneuerung, Holz-Carport"
-                />
-                <MetaCell label="Bauzeit" value="ca. 2–6 Wochen" />
-              </div>
-            </div>
-
-            {/* 05 Energetik */}
-            <div id="energetik" style={sectionWrap}>
-              <div style={headRow}>
-                <span style={numStyle}>05</span>
-                <h2 style={h2Style}>Energetik &amp; PV</h2>
-              </div>
-              <img
-                src="/images/leistungen/energetik.jpg"
-                alt="Effizienzhaus mit Holzfassade"
-                style={slotStyle}
-              />
-              <p style={leadParagraph}>
-                Photovoltaik, Wärmepumpen und Energieberatung für niedrige
-                Betriebskosten. Optional mit Heimautomation für Steuerung von
-                Anlagentechnik und Elektronik.
-              </p>
-              <div style={metaGrid}>
-                <MetaCell
-                  label="Enthalten"
-                  value="Photovoltaik · Wärmepumpe · Energieberatung · Heimautomation"
-                />
-                <MetaCell label="Standards" value="KfW-Effizienzhaus 40 & 55" />
-                <MetaCell
-                  label="Förderung"
-                  value="Beratung zu Förderprogrammen inklusive"
-                />
-              </div>
-            </div>
-
-            {/* 06 Innenausbau */}
-            <div id="innenausbau" style={sectionWrapLast}>
-              <div style={headRow}>
-                <span style={numStyle}>06</span>
-                <h2 style={h2Style}>Innenausbau</h2>
-              </div>
-              <img
-                src="/images/leistungen/innenausbau.jpg"
-                alt="Innenausbau — fertiger Wohnraum"
-                style={slotStyle}
-              />
-              <p style={leadParagraph}>
-                Trockenbau und hochwertiger Innenausbau — der letzte Schliff für ein
-                fertiges Zuhause. Inklusive Maler-, Sanitär- und Elektrikerarbeiten
-                über unser Meister-Netz.
-              </p>
-              <div style={metaGrid}>
-                <MetaCell
-                  label="Enthalten"
-                  value="Trockenbau · Malerarbeiten · Sanitär · Elektrik"
-                />
-                <MetaCell
-                  label="Typisch"
-                  value="Komplettausbau, Badsanierung, Bodenbeläge"
-                />
-                <MetaCell label="Bauzeit" value="je nach Umfang" />
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                  gap: 'clamp(28px, 4vw, 56px)',
+                }}
+              >
+                {QUERSCHNITT.map((q) => (
+                  <div key={q.id} id={q.id}>
+                    <div
+                      style={{
+                        fontFamily: "'Archivo', sans-serif",
+                        fontWeight: 800,
+                        fontSize: 32,
+                        color: '#E0AE4E',
+                        marginBottom: 14,
+                      }}
+                    >
+                      {q.icon}
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: "'Archivo', sans-serif",
+                        fontWeight: 700,
+                        fontSize: 24,
+                        margin: '0 0 12px',
+                        letterSpacing: '-0.015em',
+                      }}
+                    >
+                      {q.title}
+                    </h3>
+                    {q.trustBadge && (
+                      <div
+                        style={{
+                          display: 'inline-block',
+                          padding: '5px 12px',
+                          borderRadius: 6,
+                          background: 'rgba(224,174,78,0.18)',
+                          color: '#E0AE4E',
+                          fontSize: 12,
+                          fontWeight: 700,
+                          letterSpacing: '0.04em',
+                          textTransform: 'uppercase',
+                          marginBottom: 16,
+                        }}
+                      >
+                        ✓ {q.trustBadge}
+                      </div>
+                    )}
+                    <p
+                      style={{
+                        fontSize: 15,
+                        lineHeight: 1.65,
+                        color: '#D8D8DA',
+                        margin: '0 0 18px',
+                      }}
+                    >
+                      {q.lead}
+                    </p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {q.items.map((it) => (
+                        <span
+                          key={it}
+                          style={{
+                            padding: '5px 11px',
+                            borderRadius: 999,
+                            background: 'rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(224,174,78,0.3)',
+                            fontSize: 12.5,
+                            color: '#fff',
+                            fontWeight: 500,
+                          }}
+                        >
+                          {it}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -463,7 +571,7 @@ export default async function LeistungenPage() {
             }}
           >
             Wir besprechen Ihr Vorhaben unverbindlich und finden die passende
-            Kombination.
+            Kombination — vom einzelnen Gewerk bis zum Komplettvorhaben.
           </p>
           <a
             href="/kontakt"

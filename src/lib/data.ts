@@ -95,7 +95,7 @@ export const DEFAULT_SETTINGS = {
     { days: 'So', time: 'geschlossen' },
   ],
   footerTagline:
-    'FriStD-Bau ZuB GmbH & Co. KG · Zimmerei, Dachdeckerei & Baufirma in Hamburg-Bramfeld. Holzbau vom Feinsten.',
+    'FriStD-Bau ZuB GmbH & Co. KG · Zimmerei, Dachdeckerei, Heizung & Sanitär. Meisterbetrieb in Hamburg-Bramfeld. Wir bauen. Vom Feinsten.',
   legalRegistration: 'HRA 112897 · Hamburg',
   copyright: '© 2026 FriStD-Bau ZuB GmbH & Co. KG — Alle Rechte vorbehalten.',
   stats: [
