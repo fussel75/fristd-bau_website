@@ -424,10 +424,10 @@ export default async function KontaktPage() {
               </div>
             </div>
 
-            {/* OpenStreetMap-Embed */}
+            {/* OpenStreetMap-Embed — Haldesdorfer Str. 44, 22179 Hamburg-Bramfeld */}
             <iframe
-              title="Standort Haldesdorfer Str. 44, 22179 Hamburg"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=10.0855%2C53.6235%2C10.1055%2C53.6335&layer=mapnik&marker=53.6285%2C10.0955"
+              title="Standort Haldesdorfer Str. 44, 22179 Hamburg-Bramfeld"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=10.0742%2C53.5988%2C10.0902%2C53.6048&layer=mapnik&marker=53.6018%2C10.0822"
               style={{
                 width: '100%',
                 height: 240,
@@ -438,7 +438,7 @@ export default async function KontaktPage() {
             />
             <div style={{ fontSize: 12, marginTop: 6, color: '#8A8A8C' }}>
               <a
-                href="https://www.openstreetmap.org/?mlat=53.6285&mlon=10.0955#map=16/53.6285/10.0955"
+                href="https://www.openstreetmap.org/?mlat=53.6018&mlon=10.0822#map=17/53.6018/10.0822"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#8A8A8C' }}
