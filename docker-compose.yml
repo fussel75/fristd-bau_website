@@ -34,6 +34,13 @@ services:
       - "traefik.http.routers.fristd-web.tls=true"
       - "traefik.http.routers.fristd-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.fristd-web.loadbalancer.server.port=3000"
+      # HSTS: Browser lernt "diese Domain nur HTTPS" fuer 1 Jahr. Damit
+      # verschwindet der HTTP->HTTPS-Umweg-Effekt beim ersten Besuch.
+      - "traefik.http.middlewares.fristd-hsts.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.fristd-hsts.headers.stsIncludeSubdomains=false"
+      - "traefik.http.middlewares.fristd-hsts.headers.stsPreload=false"
+      - "traefik.http.middlewares.fristd-hsts.headers.forceSTSHeader=true"
+      - "traefik.http.routers.fristd-web.middlewares=fristd-hsts"
 
 volumes:
   fristd-data:
