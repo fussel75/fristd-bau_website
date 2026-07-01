@@ -6,7 +6,7 @@ COPY package.json package-lock.json ./
 # @libsql/linux-x64-musl explizit fuer Alpine (musl libc) - waere sonst
 # von npm ci uebersprungen weil das package-lock.json auf Windows gebaut wurde.
 RUN npm ci --legacy-peer-deps && \
-    npm install --no-save @libsql/linux-x64-musl
+    npm install --no-save --legacy-peer-deps @libsql/linux-x64-musl
 
 # Stage 2 — Build
 FROM node:22-alpine AS builder
