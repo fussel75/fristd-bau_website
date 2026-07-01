@@ -314,9 +314,9 @@ export default async function HomePage() {
               },
               {
                 icon: '◆',
-                title: 'Planung im Haus',
+                title: 'Planung inklusive',
                 desc:
-                  'Eigene Architekten und Statiker — Bauantrag und Ausführungsplanung bis 6 Wohneinheiten ohne externe Schnittstellen.',
+                  'Eingespielte Partner-Büros für Architektur und Statik — Bauantrag und Ausführungsplanung bis 6 Wohneinheiten. Sie haben nur einen Ansprechpartner.',
               },
               {
                 icon: '◐',

@@ -108,9 +108,9 @@ const QUERSCHNITT: Querschnitt[] = [
     id: 'planung',
     title: 'Planung & Statik',
     icon: '◇',
-    trustBadge: 'Eigene Architekten & Statiker im Haus',
+    trustBadge: 'Eingespieltes Partner-Netzwerk',
     lead:
-      'Architektur, Statik und Bauphysik kommen bei uns aus dem eigenen Büro. Bauanträge, Ausführungsplanung und Statik bis 6 Wohneinheiten — schnelle Wege, keine externen Schnittstellen.',
+      'Architektur, Statik und Bauphysik übernehmen unsere langjährigen Partner-Büros — eng abgestimmt, schnelle Wege, ein Ansprechpartner für Sie. Bauantrag und Ausführungsplanung bis 6 Wohneinheiten.',
     items: [
       'Architektur',
       'Statik bis 6 WE',
@@ -149,7 +149,7 @@ const FAQS: FaqItem[] = [
   },
   {
     q: 'Decken Sie wirklich Planung und Bau ab?',
-    a: 'Ja. Architektur und Statik kommen aus unserem eigenen Büro — Bauantrag und Ausführungsplanung bis 6 Wohneinheiten. Ein Ansprechpartner für das gesamte Vorhaben.',
+    a: 'Ja. Architektur und Statik übernehmen unsere langjährigen Partner-Büros — eingespielt und schnell abgestimmt, ohne dass Sie sich damit beschäftigen müssen. Bauantrag und Ausführungsplanung bis 6 Wohneinheiten. Ein Ansprechpartner für das gesamte Vorhaben.',
   },
   {
     q: 'Setzen Sie Wärmepumpen und Heizungen auch ohne Neubau?',
