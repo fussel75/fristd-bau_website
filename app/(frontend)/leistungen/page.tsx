@@ -12,6 +12,8 @@ export const metadata = {
     'Drei Meister-Disziplinen unter einem Dach: Zimmerei & Holzbau, Dachdeckerei & Klempnerei, Heizung, Sanitär & Wärmepumpen. Plus eigene Planung und Hausanschlüsse.',
 };
 
+type SubGroup = { heading: string; items: string[] };
+
 type Hauptbereich = {
   id: string;
   num: string;
@@ -20,8 +22,8 @@ type Hauptbereich = {
   img: string;
   imgAlt: string;
   lead: string;
-  items: string[];
-  meta: { label: string; value: string }[];
+  items: string[];           // flache Chip-Liste
+  subGroups?: SubGroup[];    // ODER gruppierte Chips (mit kleiner Ueberschrift)
 };
 
 const HAUPTBEREICHE: Hauptbereich[] = [
@@ -31,120 +33,134 @@ const HAUPTBEREICHE: Hauptbereich[] = [
     title: 'Zimmerei & Holzbau',
     badge: 'Meisterbetrieb Zimmererhandwerk',
     img: '/images/leistungen/neubau.jpg',
-    imgAlt: 'Neubau im Holzrahmenbau — FriStD-Bau Baustelle',
+    imgAlt: 'Holzrahmenbau — FriStD-Bau Zimmerei',
     lead:
-      'Vom ersten Skizzengespräch über Bauantrag und Statik bis zur Schlüsselübergabe. Eigenheime und Mehrfamilienhäuser im Holzrahmenbau, Aufstockungen, Sanierungen, Innenausbau und Carports.',
+      'Alle Zimmererarbeiten für Ihr Bauvorhaben — von der Konstruktion bis zur Aufstellung. Holz ist nachhaltig, leicht und schnell montiert. Ideal auch für Aufstockung und Anbau ohne aufwendige Fundamente.',
     items: [
-      'Neubau in Holzrahmenbau',
-      'Anbau & Aufstockung',
-      'Sanierung & energetische Ertüchtigung',
+      'Holzrahmenbau',
+      'Aufstockung & Anbau',
+      'Dachstuhl & Dachgauben',
+      'Brettschichtholz-Konstruktion',
+      'Holzfassade',
+      'Fachwerksanierung',
+      'Holz-Carport',
       'Innenausbau & Trockenbau',
-      'Holz-Carports',
-      'Dachgauben',
-    ],
-    meta: [
-      { label: 'Bauzeit', value: 'ca. 3–12 Monate je Vorhaben' },
-      { label: 'Förderung', value: 'KfW-Effizienzhaus 40 & 55, BAFA' },
-      { label: 'Typisch', value: 'EFH, MFH, Doppelhaus, Aufstockung' },
     ],
   },
   {
     id: 'dachdeckerei',
     num: '02',
     title: 'Dachdeckerei & Klempnerei',
-    badge: 'Meisterbetrieb Dachdeckerhandwerk',
+    badge: 'Meisterbetrieb Dachdeckerhandwerk · „Dach und dicht"',
     img: '/images/leistungen/dach.jpg',
-    imgAlt: 'Dachsanierung am Wohngebäude — FriStD-Bau Dachdecker',
+    imgAlt: 'Dachdeckerarbeiten am Wohngebäude — FriStD-Bau',
     lead:
-      'Vom Zimmermeister konstruiert, vom Dachdeckermeister eingedeckt. Dachstühle, Eindeckungen, Sanierungen und Klempnerarbeiten — alles aus einer Hand.',
+      'Alles rund ums Dach — von der Neueindeckung bis zur Regenrinne. Fachgerecht ausgeführt vom Dachdeckermeister, inklusive Klempnerarbeiten und Wärmedämmung.',
     items: [
-      'Dachstuhl & Konstruktion',
-      'Dacheindeckung (Ziegel, Metall, Schiefer)',
+      'Dacheindeckung (Ziegel · Metall · Schiefer)',
       'Dachsanierung',
+      'Dachgauben & Mansarddächer',
+      'Dachfenster',
       'Klempnerarbeiten',
-      'Dachflächenfenster',
-      'Carport-Dach',
-    ],
-    meta: [
-      { label: 'Bauzeit', value: 'ca. 2–6 Wochen' },
-      { label: 'Typisch', value: 'Neueindeckung, Dachstuhl-Erneuerung, Sanierung' },
-      { label: 'Inkl.', value: 'Statik, Wärmeschutznachweis' },
+      'Regenrinne & Fallrohre',
+      'Wärmedämmung',
+      'Blitzschutz',
     ],
   },
   {
     id: 'heizung',
     num: '03',
-    title: 'Heizung, Sanitär & Wärmepumpen',
-    badge: 'Meisterbetrieb Installations- & Heizungsbau',
+    title: 'Wärmepumpen, Heizung & Sanitär',
+    badge: 'Meisterbetrieb Installations- & Heizungsbau · Stiebel-Eltron-Partner',
     img: '/images/leistungen/energetik.jpg',
-    imgAlt: 'Effizienzhaus mit Holzfassade — FriStD-Bau',
+    imgAlt: 'Effizienzhaus mit Holzfassade — FriStD-Bau Heizungsbau',
     lead:
-      'Wärmepumpen, Heizungsanlagen, Sanitärtechnik und Photovoltaik — energiebewusst geplant und ausgeführt vom eigenen Meisterbetrieb. Förderberatung inklusive.',
-    items: [
-      'Wärmepumpen (Luft-Wasser, Sole)',
-      'Heizungsanlagen (Gas, Hybrid)',
-      'Sanitärtechnik & Bad',
-      'Photovoltaik & Solar',
-      'Energieberatung',
-      'Heimautomation',
-    ],
-    meta: [
-      { label: 'Förderung', value: 'BEG, KfW, BAFA' },
-      { label: 'Standards', value: 'KfW-Effizienzhaus 40 & 55' },
-      { label: 'Inkl.', value: 'Energieberatung & Wärmeschutznachweis' },
+      'Vom Erdbau bis zur Wärmepumpe — komplette Anlagentechnik aus einer Hand. Zertifizierter Stiebel-Eltron-Partner für Wärmepumpen und zugelassen bei Hamburg Wasser für alle Hausanschlüsse.',
+    items: [],
+    subGroups: [
+      {
+        heading: 'Wärme & Energie',
+        items: [
+          'Luft-Wärmepumpe',
+          'Erd-Wärmepumpe',
+          'Heizungsanlagen (Gas · Hybrid)',
+          'Fußbodenheizung',
+          'Warmwasserspeicher',
+          'Lüftung mit Wärmerückgewinnung',
+          'Photovoltaik',
+        ],
+      },
+      {
+        heading: 'Sanitär',
+        items: [
+          'Sanitärtechnik & Bad',
+          'Gas-Installation',
+          'Wasser-Installation',
+        ],
+      },
+      {
+        heading: 'Erdbau & Hausanschlüsse',
+        items: [
+          'Erdbau',
+          'Bodenplatte',
+          'Wasseranschluss',
+          'Abwasseranschluss',
+          'Gasanschluss',
+          'Drainage',
+        ],
+      },
     ],
   },
 ];
 
-type Querschnitt = {
+type Planungsbereich = {
   id: string;
-  title: string;
   icon: string;
+  title: string;
   trustBadge?: string;
   lead: string;
   items: string[];
 };
 
-const QUERSCHNITT: Querschnitt[] = [
+const PLANUNGSBEREICHE: Planungsbereich[] = [
   {
     id: 'planung',
-    title: 'Planung & Statik',
     icon: '◇',
-    trustBadge: 'Eingespieltes Partner-Netzwerk',
+    title: 'Planung',
+    trustBadge: 'Architekten-Netzwerk',
     lead:
-      'Architektur, Statik und Bauphysik übernehmen unsere langjährigen Partner-Büros — eng abgestimmt, schnelle Wege, ein Ansprechpartner für Sie. Bauantrag und Ausführungsplanung bis 6 Wohneinheiten.',
+      'Von der ersten Skizze bis zur Baugenehmigung — Entwurf, Bauantrag und Ausführungsplanung aus einem eingespielten Netzwerk.',
     items: [
-      'Architektur',
-      'Statik bis 6 WE',
-      'Bauphysik',
+      'Entwurf',
       'Bauantrag',
-      'Wärmeschutznachweis',
+      'Genehmigungsverfahren',
       'Ausführungsplanung',
+      'Werkstattplanung',
+      'Bauphysik',
+      'Zeitplanung',
     ],
   },
   {
-    id: 'erdbau',
-    title: 'Erdbau & Hausanschlüsse',
+    id: 'statik',
     icon: '◈',
-    trustBadge: 'Zugelassen für Hamburg Wasser',
+    title: 'Statik',
+    trustBadge: 'Partner-Statiker · bis 6 WE',
     lead:
-      'Erdbau, Bodenplatte und alle Hausanschlüsse. Wir sind zugelassen für die Installation von Wasser-, Abwasser- und Gasanschlüssen — vom Anschluss am Versorger bis ins Haus.',
+      'Statische Berechnung und Nachweise für Ihre geplante Maßnahme — Neubau, Aufstockung, Anbau oder Sanierung. Bis 6 Wohneinheiten.',
     items: [
-      'Erdbau',
-      'Wasseranschluss',
-      'Abwasseranschluss',
-      'Gasanschluss',
-      'Bodenplatte',
-      'Drainage',
+      'Statische Berechnung',
+      'Prüfstatik',
+      'Konstruktionsdetails',
+      'Nachweise',
     ],
   },
   {
     id: 'energieberatung',
-    title: 'Energieberatung',
     icon: '◐',
+    title: 'Energieberatung',
     trustBadge: 'Partner-Netzwerk: KfW · BAFA · IFB',
     lead:
-      'Jedes Förderprogramm hat andere Anforderungen an den Energieberater. Wir decken alle drei über unser Netzwerk zertifizierter Partner ab — KfW-Effizienzhaus, BAFA-Sanierung und IFB-Förderung. Wir vermitteln den passenden Berater und koordinieren die Nachweise mit der Ausführung.',
+      'Jedes Förderprogramm hat andere Anforderungen an den Energieberater. Unser Netzwerk deckt alle drei ab — KfW, BAFA, IFB — mit koordinierten Nachweisen bis zur Ausführung.',
     items: [
       'KfW-Effizienzhaus',
       'BAFA-Sanierung',
@@ -184,10 +200,28 @@ const FAQS: FaqItem[] = [
 ];
 
 const SIDEBAR: SidebarItem[] = [
-  ...HAUPTBEREICHE.map((b) => ({ id: b.id, num: b.num, label: b.title })),
-  { id: 'planung', num: '◇', label: 'Planung & Statik' },
-  { id: 'erdbau', num: '◈', label: 'Erdbau & Anschlüsse' },
-  { id: 'energieberatung', num: '◐', label: 'Energieberatung' },
+  {
+    id: HAUPTBEREICHE[0].id,
+    num: HAUPTBEREICHE[0].num,
+    label: HAUPTBEREICHE[0].title,
+    categoryHeading: 'Handwerksleistungen',
+  },
+  ...HAUPTBEREICHE.slice(1).map((b) => ({
+    id: b.id,
+    num: b.num,
+    label: b.title,
+  })),
+  {
+    id: PLANUNGSBEREICHE[0].id,
+    num: PLANUNGSBEREICHE[0].icon,
+    label: PLANUNGSBEREICHE[0].title,
+    categoryHeading: 'Planungsleistungen',
+  },
+  ...PLANUNGSBEREICHE.slice(1).map((p) => ({
+    id: p.id,
+    num: p.icon,
+    label: p.title,
+  })),
 ];
 
 const sectionWrap: React.CSSProperties = {
@@ -367,17 +401,37 @@ export default async function LeistungenPage() {
           <LeistungenSidebar items={SIDEBAR} />
 
           <div style={{ gridColumn: 'span 2', minWidth: 0 }}>
+            {/* SEKTION-HEADER: HANDWERKSLEISTUNGEN */}
+            <div
+              style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: '0.09em',
+                textTransform: 'uppercase',
+                color: '#D2992C',
+                marginBottom: 8,
+              }}
+            >
+              Handwerksleistungen
+            </div>
+            <h2
+              style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontWeight: 700,
+                fontSize: 'clamp(22px, 3vw, 30px)',
+                lineHeight: 1.15,
+                letterSpacing: '-0.02em',
+                margin: '0 0 40px',
+                color: '#2E2F31',
+              }}
+            >
+              Drei Meister-Disziplinen. Ein Ansprechpartner.
+            </h2>
+
             {/* HAUPTBEREICHE */}
-            {HAUPTBEREICHE.map((b, i) => (
-              <div
-                key={b.id}
-                id={b.id}
-                style={
-                  i === HAUPTBEREICHE.length - 1 && QUERSCHNITT.length === 0
-                    ? { paddingBottom: 'clamp(48px, 7vw, 80px)' }
-                    : sectionWrap
-                }
-              >
+            {HAUPTBEREICHE.map((b) => (
+              <div key={b.id} id={b.id} style={sectionWrap}>
                 <div
                   style={{
                     display: 'flex',
@@ -387,34 +441,89 @@ export default async function LeistungenPage() {
                   }}
                 >
                   <span style={numStyle}>{b.num}</span>
-                  <h2 style={h2Style}>{b.title}</h2>
+                  <h3 style={h2Style}>{b.title}</h3>
                 </div>
                 <div style={{ marginBottom: 22 }}>
                   <span style={badge}>{b.badge}</span>
                 </div>
                 <img src={b.img} alt={b.imgAlt} style={slotStyle} />
                 <p style={{ ...leadParagraph, marginBottom: 22 }}>{b.lead}</p>
-                <div
-                  style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 4 }}
-                >
-                  {b.items.map((it) => (
-                    <span key={it} style={chip}>
-                      {it}
-                    </span>
-                  ))}
-                </div>
-                <div style={metaGrid}>
-                  {b.meta.map((m) => (
-                    <div key={m.label}>
-                      <div style={metaLabel}>{m.label}</div>
-                      <div style={metaValue}>{m.value}</div>
+                {b.items.length > 0 && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 8,
+                      marginBottom: 4,
+                    }}
+                  >
+                    {b.items.map((it) => (
+                      <span key={it} style={chip}>
+                        {it}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {b.subGroups &&
+                  b.subGroups.map((g) => (
+                    <div key={g.heading} style={{ marginTop: 22 }}>
+                      <div
+                        style={{
+                          fontFamily: "'Archivo', sans-serif",
+                          fontSize: 12,
+                          fontWeight: 700,
+                          letterSpacing: '0.06em',
+                          textTransform: 'uppercase',
+                          color: '#8A8A8C',
+                          marginBottom: 10,
+                        }}
+                      >
+                        {g.heading}
+                      </div>
+                      <div
+                        style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}
+                      >
+                        {g.items.map((it) => (
+                          <span key={it} style={chip}>
+                            {it}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   ))}
-                </div>
               </div>
             ))}
 
-            {/* QUERSCHNITT BAND */}
+            {/* SEKTION-HEADER: PLANUNGSLEISTUNGEN */}
+            <div
+              style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: '0.09em',
+                textTransform: 'uppercase',
+                color: '#D2992C',
+                marginBottom: 8,
+                marginTop: 8,
+              }}
+            >
+              Planungsleistungen
+            </div>
+            <h2
+              style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontWeight: 700,
+                fontSize: 'clamp(22px, 3vw, 30px)',
+                lineHeight: 1.15,
+                letterSpacing: '-0.02em',
+                margin: '0 0 32px',
+                color: '#2E2F31',
+              }}
+            >
+              Vom Bauantrag bis zur Förderung.
+            </h2>
+
+            {/* PLANUNGSBEREICHE BAND */}
             <div
               style={{
                 background: '#2E2F31',
@@ -426,25 +535,13 @@ export default async function LeistungenPage() {
             >
               <div
                 style={{
-                  fontSize: 13,
-                  fontWeight: 600,
-                  letterSpacing: '0.09em',
-                  textTransform: 'uppercase',
-                  color: '#E0AE4E',
-                  marginBottom: 18,
-                }}
-              >
-                Querschnitt — alles was zusätzlich dazugehört
-              </div>
-              <div
-                style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: 'clamp(28px, 4vw, 56px)',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                  gap: 'clamp(28px, 4vw, 48px)',
                 }}
               >
-                {QUERSCHNITT.map((q) => (
-                  <div key={q.id} id={q.id}>
+                {PLANUNGSBEREICHE.map((p) => (
+                  <div key={p.id} id={p.id}>
                     <div
                       style={{
                         fontFamily: "'Archivo', sans-serif",
@@ -454,7 +551,7 @@ export default async function LeistungenPage() {
                         marginBottom: 14,
                       }}
                     >
-                      {q.icon}
+                      {p.icon}
                     </div>
                     <h3
                       style={{
@@ -465,9 +562,9 @@ export default async function LeistungenPage() {
                         letterSpacing: '-0.015em',
                       }}
                     >
-                      {q.title}
+                      {p.title}
                     </h3>
-                    {q.trustBadge && (
+                    {p.trustBadge && (
                       <div
                         style={{
                           display: 'inline-block',
@@ -482,7 +579,7 @@ export default async function LeistungenPage() {
                           marginBottom: 16,
                         }}
                       >
-                        ✓ {q.trustBadge}
+                        ✓ {p.trustBadge}
                       </div>
                     )}
                     <p
@@ -493,10 +590,10 @@ export default async function LeistungenPage() {
                         margin: '0 0 18px',
                       }}
                     >
-                      {q.lead}
+                      {p.lead}
                     </p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {q.items.map((it) => (
+                      {p.items.map((it) => (
                         <span
                           key={it}
                           style={{
