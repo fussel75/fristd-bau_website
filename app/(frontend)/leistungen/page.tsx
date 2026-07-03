@@ -138,6 +138,22 @@ const QUERSCHNITT: Querschnitt[] = [
       'Drainage',
     ],
   },
+  {
+    id: 'energieberatung',
+    title: 'Energieberatung',
+    icon: '◐',
+    trustBadge: 'Partner-Netzwerk: KfW · BAFA · IFB',
+    lead:
+      'Jedes Förderprogramm hat andere Anforderungen an den Energieberater. Wir decken alle drei über unser Netzwerk zertifizierter Partner ab — KfW-Effizienzhaus, BAFA-Sanierung und IFB-Förderung. Wir vermitteln den passenden Berater und koordinieren die Nachweise mit der Ausführung.',
+    items: [
+      'KfW-Effizienzhaus',
+      'BAFA-Sanierung',
+      'IFB-Förderung',
+      'iSFP (Sanierungsfahrplan)',
+      'Energieausweis',
+      'Wärmeschutznachweis',
+    ],
+  },
 ];
 
 const FAQS: FaqItem[] = [
@@ -171,6 +187,7 @@ const SIDEBAR: SidebarItem[] = [
   ...HAUPTBEREICHE.map((b) => ({ id: b.id, num: b.num, label: b.title })),
   { id: 'planung', num: '◇', label: 'Planung & Statik' },
   { id: 'erdbau', num: '◈', label: 'Erdbau & Anschlüsse' },
+  { id: 'energieberatung', num: '◐', label: 'Energieberatung' },
 ];
 
 const sectionWrap: React.CSSProperties = {
