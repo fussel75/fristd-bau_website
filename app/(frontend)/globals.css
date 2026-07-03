@@ -11,3 +11,17 @@ body {
 ::selection { background: #D2992C; color: #fff; }
 img { max-width: 100%; }
 a { color: inherit; }
+
+/* Leistungen-Sidebar: sticky nur auf Desktop, mobile normal im Fluss. */
+.leistungen-sidebar {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+}
+@media (max-width: 900px) {
+  .leistungen-sidebar {
+    position: relative;
+    top: auto;
+    align-self: auto;
+  }
+}

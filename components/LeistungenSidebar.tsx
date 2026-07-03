@@ -34,7 +34,7 @@ export function LeistungenSidebar({ items }: { items: SidebarItem[] }) {
   }, [items]);
 
   return (
-    <aside style={{ position: 'sticky', top: 100, alignSelf: 'start' }}>
+    <aside className="leistungen-sidebar">
       <div
         style={{
           fontFamily: "'Archivo', sans-serif",
