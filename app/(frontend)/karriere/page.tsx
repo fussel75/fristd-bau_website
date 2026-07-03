@@ -1,6 +1,8 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { getSettingsOrDefault, getActiveJobs, getPageHero } from '@/src/lib/data';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { jobPostingSchema, breadcrumbSchema, SITE_URL } from '@/src/lib/schema';
 
 export const dynamic = 'force-dynamic';
 
@@ -103,8 +105,25 @@ export default async function KarrierePage() {
           };
         })
       : JOBS;
+  // SEO: JobPosting-Schema pro Stelle + Breadcrumb
+  const schemas = [
+    breadcrumbSchema([
+      { name: 'Start', url: `${SITE_URL}/` },
+      { name: 'Karriere', url: `${SITE_URL}/karriere` },
+    ]),
+    ...jobs.map((j) =>
+      jobPostingSchema({
+        title: j.title,
+        description: j.desc,
+      }),
+    ),
+  ];
+
   return (
     <div>
+      {schemas.map((s, i) => (
+        <JsonLd key={i} data={s} />
+      ))}
       <Header active="karriere" settings={settings} />
 
       {/* PULSE-ANIMATION KEYFRAMES */}

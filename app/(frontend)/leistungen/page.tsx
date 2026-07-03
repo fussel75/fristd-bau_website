@@ -3,6 +3,13 @@ import { Footer } from '@/components/Footer';
 import { FaqAccordion, FaqItem } from '@/components/FaqAccordion';
 import { LeistungenSidebar, SidebarItem } from '@/components/LeistungenSidebar';
 import { getSettingsOrDefault, getPageHero } from '@/src/lib/data';
+import { JsonLd } from '@/components/seo/JsonLd';
+import {
+  faqPageSchema,
+  serviceSchema,
+  breadcrumbSchema,
+  SITE_URL,
+} from '@/src/lib/schema';
 
 export const dynamic = 'force-dynamic';
 
@@ -320,8 +327,31 @@ export default async function LeistungenPage() {
     }),
   ]);
 
+  // SEO: Schema.org Daten pro Sektion
+  const schemas = [
+    breadcrumbSchema([
+      { name: 'Start', url: `${SITE_URL}/` },
+      { name: 'Leistungen', url: `${SITE_URL}/leistungen` },
+    ]),
+    faqPageSchema(FAQS),
+    ...HAUPTBEREICHE.map((b) =>
+      serviceSchema(
+        b.title,
+        b.lead,
+        `${SITE_URL}/leistungen#${b.id}`,
+        b.items.length > 0 ? b.items : (b.subGroups?.flatMap((g) => g.items) ?? []),
+      ),
+    ),
+    ...PLANUNGSBEREICHE.map((p) =>
+      serviceSchema(p.title, p.lead, `${SITE_URL}/leistungen#${p.id}`, p.items),
+    ),
+  ];
+
   return (
     <div>
+      {schemas.map((s, i) => (
+        <JsonLd key={i} data={s} />
+      ))}
       <Header active="leistungen" settings={settings} />
 
       {/* PAGE INTRO */}

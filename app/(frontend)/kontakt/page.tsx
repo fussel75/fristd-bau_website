@@ -1,6 +1,8 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { getSettingsOrDefault, getPageHero } from '@/src/lib/data';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { breadcrumbSchema, SITE_URL } from '@/src/lib/schema';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,8 +41,14 @@ export default async function KontaktPage() {
         'Ob ganzer Neubau oder einzelnes Gewerk — wir beraten Sie unverbindlich und erstellen Ihr Angebot.',
     }),
   ]);
+  const breadcrumb = breadcrumbSchema([
+    { name: 'Start', url: `${SITE_URL}/` },
+    { name: 'Kontakt', url: `${SITE_URL}/kontakt` },
+  ]);
+
   return (
     <div>
+      <JsonLd data={breadcrumb} />
       <Header active="kontakt" settings={settings} />
 
       {/* INTRO */}
