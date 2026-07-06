@@ -243,7 +243,7 @@ export default async function KontaktPage() {
               <input type="checkbox" required style={{ marginTop: 2 }} />
               <span>
                 Ich habe die{' '}
-                <a href="#" style={{ color: '#D2992C' }}>
+                <a href="/datenschutz" style={{ color: '#D2992C' }}>
                   Datenschutzerklärung
                 </a>{' '}
                 gelesen und stimme zu.
