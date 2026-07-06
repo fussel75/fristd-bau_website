@@ -80,6 +80,9 @@ export const metadata: Metadata = {
     },
   },
   category: 'construction',
+  verification: {
+    google: 'WT9zXEH9lNUyKmEbf2ljf7vjEBFMlFSa82uxj3Utvvk',
+  },
 };
 
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {
