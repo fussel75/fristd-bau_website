@@ -170,14 +170,12 @@ export default async function WiderrufsrechtPage() {
             <strong>vor Ablauf der 14-tägigen Widerrufsfrist</strong> beginnen,
             benötigen wir dafür eine separate schriftliche Erklärung von Ihnen.
             Diese Erklärung enthält gleichzeitig eine Vereinbarung zum
-            Wertersatz für den Fall, dass Sie dennoch widerrufen — sie muss
-            händisch unterschrieben werden und kann daher nicht online
-            eingereicht werden.
+            Wertersatz für den Fall, dass Sie dennoch widerrufen.
           </p>
           <p style={{ ...legalPStyle, margin: '0 0 14px' }}>
-            Bitte laden Sie das Formular herunter, drucken es aus, füllen es
-            aus, unterschreiben es und übergeben es uns per Post, Fax oder als
-            Scan per E-Mail.
+            Sie können die Erklärung direkt <strong>am Endgerät digital
+            unterschreiben</strong> — oder alternativ ausdrucken und
+            handschriftlich unterschreiben.
           </p>
           <Link
             href="/widerrufsrecht/vorzeitiger-beginn"
