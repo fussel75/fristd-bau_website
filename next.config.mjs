@@ -15,6 +15,23 @@ const nextConfig = {
   images: {
     remotePatterns: [],
   },
+  async headers() {
+    return [
+      {
+        // Auf allen Antworten. Traefik setzt zusaetzlich HSTS.
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Permissions-Policy',
+            value: 'geolocation=(), camera=(), microphone=(), payment=(), usb=()',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withPayload(nextConfig, { devBundleServerPackages: false });

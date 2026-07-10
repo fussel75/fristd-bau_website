@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { checkRate, getClientIp, maybeCleanup } from '@/src/lib/rateLimit';
 
 export const dynamic = 'force-dynamic';
+
+const RATE_MAX = 3;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+// 2 MB reichen fuer zwei PNG-Signaturen in voller Aufloesung.
+const MAX_BODY_BYTES = 2 * 1024 * 1024;
 
 type Payload = {
   vorname: string;
@@ -42,6 +48,21 @@ function dataUrlToBuffer(dataUrl: string): { buffer: Buffer; mimetype: string } 
 }
 
 export async function POST(req: NextRequest) {
+  const contentLength = Number(req.headers.get('content-length') || 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'Anfrage zu gross.' }, { status: 413 });
+  }
+
+  maybeCleanup(RATE_WINDOW_MS);
+  const ip = getClientIp(req);
+  const rate = checkRate(`vorzeitiger:${ip}`, RATE_MAX, RATE_WINDOW_MS);
+  if (!rate.ok) {
+    return NextResponse.json(
+      { error: `Zu viele Anfragen. Bitte in ${Math.ceil(rate.retryAfter / 60)} Minuten erneut versuchen.` },
+      { status: 429, headers: { 'Retry-After': String(rate.retryAfter) } },
+    );
+  }
+
   let body: Payload;
   try {
     body = await req.json();
@@ -114,9 +135,7 @@ export async function POST(req: NextRequest) {
   });
   const dateStr = now.toLocaleDateString('de-DE', { timeZone: 'Europe/Berlin' });
 
-  // Beweismittel: IP-Adresse (X-Forwarded-For hinter Traefik) und User-Agent
-  const forwardedFor = req.headers.get('x-forwarded-for') || '';
-  const ip = forwardedFor.split(',')[0].trim() || 'unbekannt';
+  // Beweismittel: IP (bereits weiter oben ermittelt) und User-Agent
   const ua = req.headers.get('user-agent') || 'unbekannt';
 
   const fullName = `${body.vorname.trim()} ${body.nachname.trim()}`;

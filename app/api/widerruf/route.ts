@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { checkRate, getClientIp, maybeCleanup } from '@/src/lib/rateLimit';
 
 export const dynamic = 'force-dynamic';
+
+// max 3 Anfragen pro IP in 10 Minuten
+const RATE_MAX = 3;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+// Payload-Groessen-Grenze: 100 KB reichen fuer das Formular locker
+const MAX_BODY_BYTES = 100 * 1024;
 
 type Payload = {
   vorname: string;
@@ -29,6 +36,23 @@ function esc(s: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  // Body-Groesse begrenzen (verhindert OOM durch riesige JSONs)
+  const contentLength = Number(req.headers.get('content-length') || 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'Anfrage zu gross.' }, { status: 413 });
+  }
+
+  // Rate-Limit pro IP
+  maybeCleanup(RATE_WINDOW_MS);
+  const ip = getClientIp(req);
+  const rate = checkRate(`widerruf:${ip}`, RATE_MAX, RATE_WINDOW_MS);
+  if (!rate.ok) {
+    return NextResponse.json(
+      { error: `Zu viele Anfragen. Bitte in ${Math.ceil(rate.retryAfter / 60)} Minuten erneut versuchen.` },
+      { status: 429, headers: { 'Retry-After': String(rate.retryAfter) } },
+    );
+  }
+
   let body: Payload;
   try {
     body = await req.json();
