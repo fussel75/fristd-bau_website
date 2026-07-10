@@ -212,7 +212,7 @@ export function WiderrufForm() {
 
       <div style={row2}>
         <div>
-          <label style={label}>Bestellt am*</label>
+          <label style={label}>Bestellt-/ Beauftragt am*</label>
           <input name="bestelltAm" type="date" required style={input} />
         </div>
         <div>
