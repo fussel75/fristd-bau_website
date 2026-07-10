@@ -22,6 +22,10 @@ services:
       DATABASE_URI: file:./data/payload.db
       # Diese URL nutzt Payload fuer Cookies, Mails (spaeter), Self-Links.
       NEXT_PUBLIC_SERVER_URL: https://neu.fristd-bau.com
+      # Resend fuer Widerruf- und Vorzeitiger-Beginn-Formulare
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      RESEND_FROM: ${RESEND_FROM}
+      WIDERRUF_TO: ${WIDERRUF_TO}
     volumes:
       # DB und Medien persistent halten - sonst killt jeder Container-Rebuild die Inhalte
       - fristd-data:/app/data
