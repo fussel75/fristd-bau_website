@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import {
@@ -6,6 +7,7 @@ import {
   legalPStyle,
   legalUlStyle,
 } from '@/components/LegalLayout';
+import { WiderrufForm } from '@/components/WiderrufForm';
 import { getSettingsOrDefault } from '@/src/lib/data';
 
 export const dynamic = 'force-dynamic';
@@ -127,55 +129,71 @@ export default async function WiderrufsrechtPage() {
           </li>
         </ul>
 
-        <h2 style={legalH2Style}>Muster-Widerrufsformular</h2>
+        <h2 style={legalH2Style} id="widerrufsformular">
+          Widerruf online erklären
+        </h2>
         <p style={legalPStyle}>
-          Wenn Sie den Vertrag widerrufen wollen, können Sie das folgende
-          Formular verwenden. Ausfüllen und an uns zurücksenden reicht.
+          Sie können Ihren Widerruf hier direkt online erklären. Nach dem
+          Absenden erhalten Sie eine E-Mail-Bestätigung an die angegebene
+          Adresse; wir bearbeiten Ihre Erklärung umgehend.
         </p>
+        <p style={{ ...legalPStyle, fontSize: 14, color: '#6B6C6F' }}>
+          Alternativ können Sie den Widerruf auch formlos per E-Mail an{' '}
+          <a href="mailto:post@fristd-bau.com" style={{ color: '#D2992C' }}>
+            post@fristd-bau.com
+          </a>{' '}
+          oder per Brief bzw. Fax (siehe Kontakt oben) erklären.
+        </p>
+
+        <div style={{ margin: '20px 0 32px' }}>
+          <WiderrufForm />
+        </div>
+
+        <h2 style={legalH2Style}>
+          Sonderfall: Vorzeitiger Beginn der Arbeiten
+        </h2>
         <div
           style={{
-            background: '#FAF8F4',
-            border: '1px solid #ECEBE6',
+            background: '#FFF7E6',
+            border: '1px solid #F0D68C',
+            borderLeft: '4px solid #D2992C',
             borderRadius: 10,
-            padding: '20px 24px',
-            fontSize: 15,
-            lineHeight: 1.7,
-            margin: '20px 0',
+            padding: '18px 22px',
+            margin: '14px 0 18px',
           }}
         >
-          <p style={{ margin: '0 0 12px' }}>
-            <strong>An:</strong>
-            <br />
-            FriStD-Bau ZuB GmbH &amp; Co. KG
-            <br />
-            Haldesdorfer Str. 44, 22179 Hamburg
-            <br />
-            E-Mail: post@fristd-bau.com
+          <p style={{ margin: '0 0 12px', fontWeight: 600, color: '#7A5810' }}>
+            ⚠ Wichtiger Hinweis
           </p>
-          <p style={{ margin: '0 0 12px' }}>
-            Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen
-            Vertrag über die Erbringung der folgenden Dienstleistung:
+          <p style={{ ...legalPStyle, margin: '0 0 10px' }}>
+            Wenn Sie ausdrücklich wünschen, dass wir mit den Arbeiten{' '}
+            <strong>vor Ablauf der 14-tägigen Widerrufsfrist</strong> beginnen,
+            benötigen wir dafür eine separate schriftliche Erklärung von Ihnen.
+            Diese Erklärung enthält gleichzeitig eine Vereinbarung zum
+            Wertersatz für den Fall, dass Sie dennoch widerrufen — sie muss
+            händisch unterschrieben werden und kann daher nicht online
+            eingereicht werden.
           </p>
-          <p style={{ margin: '0 0 8px' }}>
-            _____________________________________________________________
+          <p style={{ ...legalPStyle, margin: '0 0 14px' }}>
+            Bitte laden Sie das Formular herunter, drucken es aus, füllen es
+            aus, unterschreiben es und übergeben es uns per Post, Fax oder als
+            Scan per E-Mail.
           </p>
-          <p style={{ margin: '12px 0 8px' }}>
-            Bestellt am (*) / erhalten am (*): _______________________
-          </p>
-          <p style={{ margin: '0 0 8px' }}>
-            Name des/der Verbraucher(s): _______________________
-          </p>
-          <p style={{ margin: '0 0 8px' }}>
-            Anschrift des/der Verbraucher(s): _______________________
-          </p>
-          <p style={{ margin: '12px 0 8px' }}>
-            Unterschrift des/der Verbraucher(s) (nur bei Mitteilung auf Papier):
-            _______________________
-          </p>
-          <p style={{ margin: '0 0 8px' }}>Datum: _______________________</p>
-          <p style={{ margin: '12px 0 0', fontSize: 13, color: '#8A8A8C' }}>
-            (*) Unzutreffendes streichen.
-          </p>
+          <Link
+            href="/widerrufsrecht/vorzeitiger-beginn"
+            style={{
+              display: 'inline-block',
+              background: '#D2992C',
+              color: '#fff',
+              textDecoration: 'none',
+              padding: '10px 22px',
+              borderRadius: 999,
+              fontWeight: 600,
+              fontSize: 14,
+            }}
+          >
+            Formular „Vorzeitiger Beginn" öffnen →
+          </Link>
         </div>
       </LegalLayout>
       <Footer settings={settings} />
