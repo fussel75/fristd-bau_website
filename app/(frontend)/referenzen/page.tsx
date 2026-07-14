@@ -72,6 +72,10 @@ const PROJECTS: RefProject[] = [
     year: '',
     img: '/images/referenzen/ref-08-anbau-krupunder.jpg',
     alt: 'Anbau in Holzbauweise',
+    gallery: [
+      { src: '/images/leistungen/neubau.jpg', alt: 'Holzrahmenkonstruktion im Bau' },
+      { src: '/images/leistungen/innenausbau.jpg', alt: 'Innenausbau nach Anbau-Fertigstellung' },
+    ],
   },
   {
     cat: 'Sonderbau',

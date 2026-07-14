@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Lightbox, LightboxSlide } from './Lightbox';
 
 // Bilder-Bereich einer Referenz-Karte. Bei Gallery mit >1 Bildern: sanfter
 // Cross-Fade-Slider mit Auto-Advance (langsamer als der Hero-Slider damit
@@ -166,6 +167,21 @@ export function ReferenzenGallery({
   initialSubline?: string;
 }) {
   const [filter, setFilter] = useState<string>('Alle');
+  const [lightbox, setLightbox] = useState<{
+    open: boolean;
+    slides: LightboxSlide[];
+    title: string;
+  }>({ open: false, slides: [], title: '' });
+
+  const openLightboxFor = (p: RefProject) => {
+    const slides: LightboxSlide[] = [
+      { src: p.img, alt: p.alt },
+      ...(p.gallery ?? []).map((g) => ({ src: g.src, alt: g.alt })),
+    ].filter((s) => s.src);
+    if (slides.length === 0) return;
+    setLightbox({ open: true, slides, title: p.title });
+  };
+
   const visible =
     filter === 'Alle' ? projects : projects.filter((p) => p.cat === filter);
   const slogan = SLOGANS[filter];
@@ -242,8 +258,11 @@ export function ReferenzenGallery({
         }}
       >
         {visible.map((p) => (
-          <div
+          <button
             key={p.img}
+            type="button"
+            onClick={() => openLightboxFor(p)}
+            aria-label={`${p.title} — Bildergalerie oeffnen`}
             style={{
               background: '#fff',
               border: '1px solid #ECEBE6',
@@ -251,6 +270,12 @@ export function ReferenzenGallery({
               overflow: 'hidden',
               transition:
                 'transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease',
+              cursor: 'pointer',
+              padding: 0,
+              textAlign: 'left',
+              fontFamily: 'inherit',
+              color: 'inherit',
+              width: '100%',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-6px)';
@@ -292,9 +317,16 @@ export function ReferenzenGallery({
                 {p.loc}
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
+
+      <Lightbox
+        open={lightbox.open}
+        slides={lightbox.slides}
+        title={lightbox.title}
+        onClose={() => setLightbox((s) => ({ ...s, open: false }))}
+      />
 
       {visible.length === 0 && (
         <div
