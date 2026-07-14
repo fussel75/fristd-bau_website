@@ -218,16 +218,21 @@ const SIDEBAR: SidebarItem[] = [
     num: b.num,
     label: b.title,
   })),
+  // Alle Planungspunkte scrollen zum gemeinsamen Sektions-Anker, damit
+  // der User immer alle drei Karten zusammen sieht — sonst wirkt es
+  // unprofessionell wenn nur eine einzelne Karte im Viewport steht.
   {
     id: PLANUNGSBEREICHE[0].id,
     num: PLANUNGSBEREICHE[0].icon,
     label: PLANUNGSBEREICHE[0].title,
     categoryHeading: 'Planungsleistungen',
+    anchor: 'planungsleistungen',
   },
   ...PLANUNGSBEREICHE.slice(1).map((p) => ({
     id: p.id,
     num: p.icon,
     label: p.title,
+    anchor: 'planungsleistungen',
   })),
 ];
 
@@ -526,6 +531,7 @@ export default async function LeistungenPage() {
 
             {/* SEKTION-HEADER: PLANUNGSLEISTUNGEN */}
             <div
+              id="planungsleistungen"
               style={{
                 fontFamily: "'Archivo', sans-serif",
                 fontSize: 13,
@@ -535,6 +541,7 @@ export default async function LeistungenPage() {
                 color: '#D2992C',
                 marginBottom: 8,
                 marginTop: 8,
+                scrollMarginTop: 24,
               }}
             >
               Planungsleistungen
@@ -559,19 +566,29 @@ export default async function LeistungenPage() {
                 background: '#2E2F31',
                 color: '#fff',
                 borderRadius: 24,
-                padding: 'clamp(32px, 4vw, 48px)',
+                padding: 'clamp(20px, 3vw, 32px)',
                 marginBottom: 'clamp(48px, 7vw, 80px)',
               }}
             >
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                  gap: 'clamp(28px, 4vw, 48px)',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                  gap: 'clamp(14px, 1.6vw, 22px)',
                 }}
               >
                 {PLANUNGSBEREICHE.map((p) => (
-                  <div key={p.id} id={p.id}>
+                  <div
+                    key={p.id}
+                    id={p.id}
+                    style={{
+                      background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      borderRadius: 16,
+                      padding: 'clamp(20px, 2.4vw, 28px)',
+                      scrollMarginTop: 24,
+                    }}
+                  >
                     <div
                       style={{
                         fontFamily: "'Archivo', sans-serif",

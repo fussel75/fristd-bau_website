@@ -8,6 +8,9 @@ export type SidebarItem = {
   label: string;
   // Optionale Kategorie-Ueberschrift die VOR diesem Item angezeigt wird
   categoryHeading?: string;
+  // Optional: Klick scrollt zu einem anderen Anker (z.B. Sektions-Header),
+  // waehrend der IntersectionObserver weiterhin `id` beobachtet.
+  anchor?: string;
 };
 
 export function LeistungenSidebar({ items }: { items: SidebarItem[] }) {
@@ -77,7 +80,7 @@ export function LeistungenSidebar({ items }: { items: SidebarItem[] }) {
               </div>
             )}
             <a
-              href={`#${it.id}`}
+              href={`#${it.anchor ?? it.id}`}
               onMouseEnter={() => setHover(it.id)}
               onMouseLeave={() => setHover(null)}
               style={{
