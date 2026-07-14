@@ -18,17 +18,109 @@ const CATS = [
   'Sanierung',
   'Dach',
   'Anbau',
-  'Heizung & Sanitär',
+  'Wärmepumpen, Heizung & Sanitär',
   'Sonderbau',
 ];
 
-export function ReferenzenGallery({ projects }: { projects: RefProject[] }) {
+// Pro Sparte ein eigener Slogan + Subline fuer die Referenzen-Seite.
+// Werden ueber die H1 gerendert wenn ein Filter aktiv ist.
+export const SLOGANS: Record<string, { headline: string; subline: string }> = {
+  Alle: {
+    headline: 'Holzbau, der\nsich sehen lässt.',
+    subline:
+      'Eine Auswahl unserer Projekte aus Hamburg und Umgebung — gefiltert nach Gewerk.',
+  },
+  Neubau: {
+    headline: 'Neu gebaut.\nVon Grund auf gut.',
+    subline:
+      'Unsere Neubau-Projekte in Holzbauweise — vom Fundament bis zum First aus einer Hand.',
+  },
+  Aufstockung: {
+    headline: 'Ein Stockwerk mehr.\nOhne Umzug.',
+    subline:
+      'Aufstockung in Holzbauweise — leicht, schnell und ohne aufwendige neue Fundamente.',
+  },
+  Sanierung: {
+    headline: 'Aus Alt\nwird wertvoll.',
+    subline:
+      'Sanierungsprojekte, die Substanz erhalten und den Wert steigern — nachhaltig und förderfähig.',
+  },
+  Dach: {
+    headline: 'Das Dach\nüber allem.',
+    subline:
+      'Neueindeckung, Dachsanierung, Gauben und Dachfenster — vom Dachdeckermeister ausgeführt.',
+  },
+  Anbau: {
+    headline: 'Mehr Raum.\nOhne Auszug.',
+    subline:
+      'Anbauten in Holzbauweise — wachsen im eigenen Haus, ohne monatelange Baustelle.',
+  },
+  'Wärmepumpen, Heizung & Sanitär': {
+    headline: 'Wärme,\ndie einfach läuft.',
+    subline:
+      'Wärmepumpen, Heizungen und Sanitäranlagen — zertifizierter Stiebel-Eltron-Partner und Hamburg-Wasser-Zulassung.',
+  },
+  Sonderbau: {
+    headline: 'Wenn Standard\nnicht reicht.',
+    subline:
+      'Projekte jenseits des Katalogs — Hausboote, Umbauten, individuelle Konstruktionen.',
+  },
+};
+
+export function ReferenzenGallery({
+  projects,
+  initialHeadline,
+  initialSubline,
+}: {
+  projects: RefProject[];
+  // Fuer den "Alle"-Filter kommen Headline/Subline aus dem CMS-Hero.
+  // Sobald ein anderer Filter aktiv ist, greift SLOGANS.
+  initialHeadline?: string;
+  initialSubline?: string;
+}) {
   const [filter, setFilter] = useState<string>('Alle');
   const visible =
     filter === 'Alle' ? projects : projects.filter((p) => p.cat === filter);
+  const slogan = SLOGANS[filter];
+  const headline =
+    filter === 'Alle' && initialHeadline
+      ? initialHeadline
+      : slogan?.headline ?? '';
+  const subline =
+    filter === 'Alle' && initialSubline
+      ? initialSubline
+      : slogan?.subline ?? '';
 
   return (
     <>
+      <h1
+        style={{
+          fontFamily: "'Archivo', sans-serif",
+          fontWeight: 800,
+          fontSize: 'clamp(36px, 6vw, 64px)',
+          lineHeight: 1.04,
+          letterSpacing: '-0.03em',
+          margin: '0 0 18px',
+          maxWidth: 880,
+          whiteSpace: 'pre-line',
+          transition: 'opacity 180ms ease',
+        }}
+      >
+        {headline}
+      </h1>
+      <p
+        style={{
+          fontSize: 'clamp(16px, 1.6vw, 19px)',
+          lineHeight: 1.6,
+          color: '#6B6C6F',
+          maxWidth: 640,
+          margin: '0 0 40px',
+          transition: 'opacity 180ms ease',
+        }}
+      >
+        {subline}
+      </p>
+
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 40 }}>
         {CATS.map((c) => {
           const active = c === filter;

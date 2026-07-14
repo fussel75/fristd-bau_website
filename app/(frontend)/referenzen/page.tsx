@@ -161,42 +161,13 @@ export default async function ReferenzenPage() {
           />
           {hero.eyebrow}
         </div>
-        <h1
-          style={{
-            fontFamily: "'Archivo', sans-serif",
-            fontWeight: 800,
-            fontSize: 'clamp(36px, 6vw, 64px)',
-            lineHeight: 1.04,
-            letterSpacing: '-0.03em',
-            margin: '0 0 18px',
-            maxWidth: 880,
-            whiteSpace: 'pre-line',
-          }}
-        >
-          {hero.headline}
-        </h1>
-        <p
-          style={{
-            fontSize: 'clamp(16px, 1.6vw, 19px)',
-            lineHeight: 1.6,
-            color: '#6B6C6F',
-            maxWidth: 640,
-            margin: '0 0 40px',
-          }}
-        >
-          {hero.subline}
-        </p>
-      </section>
-
-      {/* GALLERY */}
-      <section
-        style={{
-          maxWidth: 1280,
-          margin: '0 auto',
-          padding: '0 clamp(20px, 4vw, 36px) clamp(56px, 8vw, 96px)',
-        }}
-      >
-        <ReferenzenGallery projects={projects} />
+        {/* H1 + Subline werden von ReferenzenGallery gerendert und
+            beim Filter-Wechsel dynamisch aktualisiert. */}
+        <ReferenzenGallery
+          projects={projects}
+          initialHeadline={hero.headline}
+          initialSubline={hero.subline}
+        />
       </section>
 
       {/* KONTAKT BAND */}
