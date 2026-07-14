@@ -57,21 +57,43 @@ const HAUPTBEREICHE: Hauptbereich[] = [
   {
     id: 'dachdeckerei',
     num: '02',
-    title: 'Dachdeckerei & Klempnerei',
-    badge: 'Meisterbetrieb Dachdeckerhandwerk · „Dach und dicht"',
+    title: 'Dachdeckerei, Klempnerei & Photovoltaik',
+    badge: 'Meisterbetrieb Dachdeckerhandwerk · „Dach und dicht" · PV-Partner',
     img: '/images/leistungen/dach.jpg',
     imgAlt: 'Dachdeckerarbeiten am Wohngebäude — FriStD-Bau',
     lead:
-      'Alles rund ums Dach — von der Neueindeckung bis zur Regenrinne. Fachgerecht ausgeführt vom Dachdeckermeister, inklusive Klempnerarbeiten und Wärmedämmung.',
-    items: [
-      'Dacheindeckung (Ziegel · Metall · Schiefer)',
-      'Dachsanierung',
-      'Dachgauben & Mansarddächer',
-      'Dachfenster',
-      'Klempnerarbeiten',
-      'Regenrinne & Fallrohre',
-      'Wärmedämmung',
-      'Blitzschutz',
+      'Alles rund ums Dach — von der Neueindeckung bis zur Photovoltaik-Anlage. Fachgerecht ausgeführt vom Dachdeckermeister, inklusive Klempnerarbeiten, Wärmedämmung und PV-Montage mit Netzwerk-Elektriker.',
+    items: [],
+    subGroups: [
+      {
+        heading: 'Dachdeckerei',
+        items: [
+          'Dacheindeckung (Ziegel · Metall · Schiefer)',
+          'Dachsanierung',
+          'Dachgauben & Mansarddächer',
+          'Dachfenster',
+          'Wärmedämmung',
+          'Blitzschutz',
+        ],
+      },
+      {
+        heading: 'Klempnerei',
+        items: [
+          'Regenrinne & Fallrohre',
+          'Metall-Abdeckungen',
+          'Kaminverwahrung',
+        ],
+      },
+      {
+        heading: 'Photovoltaik',
+        items: [
+          'PV-Anlage (Aufdach)',
+          'PV-Indach-System',
+          'Solar-Ziegel',
+          'Batteriespeicher',
+          'Wechselrichter-Anbindung',
+        ],
+      },
     ],
   },
   {
@@ -94,7 +116,6 @@ const HAUPTBEREICHE: Hauptbereich[] = [
           'Fußbodenheizung',
           'Warmwasserspeicher',
           'Lüftung mit Wärmerückgewinnung',
-          'Photovoltaik',
         ],
       },
       {
