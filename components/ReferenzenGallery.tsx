@@ -11,7 +11,16 @@ export type RefProject = {
   alt: string;
 };
 
-const CATS = ['Alle', 'Neubau', 'Aufstockung', 'Sanierung', 'Dach', 'Anbau', 'Sonderbau'];
+const CATS = [
+  'Alle',
+  'Neubau',
+  'Aufstockung',
+  'Sanierung',
+  'Dach',
+  'Anbau',
+  'Heizung & Sanitär',
+  'Sonderbau',
+];
 
 export function ReferenzenGallery({ projects }: { projects: RefProject[] }) {
   const [filter, setFilter] = useState<string>('Alle');
