@@ -40,7 +40,14 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: STATIC_DIR,
-    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/avif'],
+    mimeTypes: [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'image/avif',
+      'video/mp4',
+      'video/webm',
+    ],
     focalPoint: true,
     crop: true,
     imageSizes: [

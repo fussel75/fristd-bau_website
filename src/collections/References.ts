@@ -54,8 +54,30 @@ export const References: CollectionConfig = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      label: 'Haupt-Foto',
+      label: 'Haupt-Foto (Karten-Vorschau)',
       required: true,
+    },
+    {
+      name: 'gallery',
+      type: 'array',
+      label: 'Weitere Bilder (Lightbox)',
+      admin: {
+        description:
+          'Zusaetzliche Fotos vom Projekt. Werden in der Lightbox angezeigt wenn der Nutzer die Referenz-Karte anklickt. Reihenfolge = Reihenfolge in der Lightbox.',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+        {
+          name: 'caption',
+          type: 'text',
+          label: 'Bildunterschrift (optional)',
+        },
+      ],
     },
     {
       name: 'featured',

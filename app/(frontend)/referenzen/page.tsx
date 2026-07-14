@@ -29,6 +29,16 @@ const PROJECTS: RefProject[] = [
     year: '2023',
     img: '/images/referenzen/ref-02-aufstockung-suederfeld.jpg',
     alt: 'Aufstockung in Holzbauweise mit Holzfassade',
+    gallery: [
+      {
+        src: '/images/referenzen/ref-03-mansarddach-stofferkamp75.jpg',
+        alt: 'Detail Mansarddach',
+      },
+      {
+        src: '/images/leistungen/neubau.jpg',
+        alt: 'Holzrahmenkonstruktion im Bau',
+      },
+    ],
   },
   {
     cat: 'Aufstockung',
@@ -108,7 +118,14 @@ export default async function ReferenzenPage() {
             location?: string;
             year?: string;
             image?: MediaShape;
+            gallery?: Array<{ image?: MediaShape; caption?: string }>;
           };
+          const gallery = (ref.gallery ?? [])
+            .map((g) => ({
+              src: mediaUrl(g.image, 'card'),
+              alt: g.caption || g.image?.alt || ref.title || '',
+            }))
+            .filter((g) => g.src);
           return {
             title: ref.title ?? '',
             cat: ref.category ?? '',
@@ -116,6 +133,7 @@ export default async function ReferenzenPage() {
             year: ref.year ?? '',
             img: mediaUrl(ref.image, 'card'),
             alt: ref.image?.alt ?? ref.title ?? '',
+            gallery,
           };
         })
       : PROJECTS;

@@ -1,6 +1,90 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+// Bilder-Bereich einer Referenz-Karte. Bei Gallery mit >1 Bildern: sanfter
+// Cross-Fade-Slider mit Auto-Advance (langsamer als der Hero-Slider damit
+// die Seite nicht flimmert). Bei einzelnem Bild: statisches img.
+function RefCardImage({ project }: { project: RefProject }) {
+  const slides = [
+    { src: project.img, alt: project.alt },
+    ...(project.gallery ?? []),
+  ].filter((s) => s.src);
+  const [i, setI] = useState(0);
+  const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    if (slides.length <= 1 || hover) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) return;
+    const t = setTimeout(() => setI((n) => (n + 1) % slides.length), 4500);
+    return () => clearTimeout(t);
+  }, [i, slides.length, hover]);
+
+  const boxStyle: React.CSSProperties = {
+    position: 'relative',
+    width: '100%',
+    height: 'clamp(220px, 28vw, 280px)',
+    background: '#ECEBE6',
+  };
+  if (slides.length <= 1) {
+    return (
+      <img
+        src={project.img}
+        alt={project.alt}
+        style={{
+          width: '100%',
+          height: 'clamp(220px, 28vw, 280px)',
+          objectFit: 'cover',
+          display: 'block',
+        }}
+      />
+    );
+  }
+  return (
+    <div
+      style={boxStyle}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {slides.map((s, idx) => (
+        <img
+          key={s.src}
+          src={s.src}
+          alt={s.alt}
+          loading={idx === 0 ? 'eager' : 'lazy'}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: idx === i ? 1 : 0,
+            transition: 'opacity 700ms ease-in-out',
+          }}
+        />
+      ))}
+      {/* Kleiner Zaehler unten rechts damit man merkt dass es mehrere Bilder gibt */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          right: 12,
+          padding: '3px 9px',
+          borderRadius: 999,
+          background: 'rgba(0,0,0,0.55)',
+          color: '#fff',
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: '0.02em',
+          backdropFilter: 'blur(4px)',
+        }}
+      >
+        {i + 1} / {slides.length}
+      </div>
+    </div>
+  );
+}
 
 export type RefProject = {
   cat: string;
@@ -9,6 +93,9 @@ export type RefProject = {
   year: string;
   img: string;
   alt: string;
+  // Zusatzbilder fuer den Karten-Slider und die Lightbox. Wenn leer,
+  // wird nur `img` gezeigt (statisches Bild wie bisher).
+  gallery?: Array<{ src: string; alt: string }>;
 };
 
 const CATS = [
@@ -176,16 +263,7 @@ export function ReferenzenGallery({
               e.currentTarget.style.boxShadow = '';
             }}
           >
-            <img
-              src={p.img}
-              alt={p.alt}
-              style={{
-                width: '100%',
-                height: 'clamp(220px, 28vw, 280px)',
-                objectFit: 'cover',
-                display: 'block',
-              }}
-            />
+            <RefCardImage project={p} />
             <div style={{ padding: 22 }}>
               <div
                 style={{

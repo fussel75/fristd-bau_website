@@ -104,6 +104,76 @@ export const SettingsGlobal: GlobalConfig = {
           ],
         },
         {
+          label: 'Startseite: Hero-Slides',
+          fields: [
+            {
+              name: 'heroSlides',
+              type: 'array',
+              label: 'Bilder fuer die Hero-Slideshow',
+              admin: {
+                description:
+                  'Wenn leer: eingebaute Standardauswahl. Sonst wechseln diese Bilder im Hero-Karussell (Auto-Fade). 3-6 Bilder empfohlen.',
+              },
+              fields: [
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                },
+                {
+                  name: 'alt',
+                  type: 'text',
+                  label: 'Alt-Text (SEO/Barrierefreiheit)',
+                  admin: {
+                    description:
+                      'Kurze Beschreibung was auf dem Bild zu sehen ist. Wird auch von Google gelesen.',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Startseite: Impressionen (Videos)',
+          fields: [
+            {
+              name: 'impressionenVideos',
+              type: 'array',
+              label: 'Videos fuer die Impressionen-Sektion',
+              admin: {
+                description:
+                  'Kurze Baustellenfilme (Autoplay stumm, Endlos-Loop) im Grid unter der Startseiten-Hero. 3-6 Videos empfohlen. Empfohlenes Format: mp4/webm, hochkant (9:16) oder quadratisch.',
+              },
+              fields: [
+                {
+                  name: 'video',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                  admin: {
+                    description: 'mp4- oder webm-Datei',
+                  },
+                },
+                {
+                  name: 'poster',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: 'Vorschaubild (optional)',
+                  admin: {
+                    description: 'Wird angezeigt bis das Video laedt.',
+                  },
+                },
+                {
+                  name: 'caption',
+                  type: 'text',
+                  label: 'Titel (optional)',
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: 'Statistik (Hero)',
           fields: [
             {

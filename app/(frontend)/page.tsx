@@ -2,7 +2,26 @@ import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { RotatingWord } from '@/components/RotatingWord';
-import { getSettingsOrDefault, getReferences, mediaUrl, MediaShape, getPageHero } from '@/src/lib/data';
+import { HeroSlideshow, HeroSlide } from '@/components/HeroSlideshow';
+import {
+  getSettingsOrDefault,
+  getReferences,
+  mediaUrl,
+  MediaShape,
+  getPageHero,
+  getHeroSlides,
+} from '@/src/lib/data';
+
+// Fallback-Slides falls im CMS noch keine Hero-Slides gepflegt sind.
+// Werden aus dem bestehenden public/images/-Fundus kuratiert — kann der
+// Nutzer spaeter im Payload-Admin komplett uebersteuern.
+const FALLBACK_HERO_SLIDES: HeroSlide[] = [
+  { src: '/images/start/hero.jpg', alt: 'Holzrahmenbau — FriStD-Bau Hauptprojekt' },
+  { src: '/images/referenzen/ref-01-neubau-heestweg.jpg', alt: 'Neubau in Holzrahmenbau mit Holzweichfaser-Daemmung' },
+  { src: '/images/referenzen/ref-02-aufstockung-suederfeld.jpg', alt: 'Aufstockung in Holzbauweise mit Holzfassade' },
+  { src: '/images/leistungen/dach.jpg', alt: 'Dachdeckerarbeiten am Wohngebaeude' },
+  { src: '/images/referenzen/ref-05-dachstuhl-schiller.jpg', alt: 'Dachstuhl-Konstruktion vom Zimmerermeister' },
+];
 
 // Immer server-rendern mit aktuellen CMS-Daten (keine Static-Cache-Falle).
 export const dynamic = 'force-dynamic';
@@ -103,7 +122,7 @@ const PROCESS = [
 ];
 
 export default async function HomePage() {
-  const [settings, featuredRefs, hero] = await Promise.all([
+  const [settings, featuredRefs, hero, cmsHeroSlides] = await Promise.all([
     getSettingsOrDefault(),
     getReferences({ featured: true, limit: 5 }),
     getPageHero('start', {
@@ -112,7 +131,11 @@ export default async function HomePage() {
       subline:
         'Zimmerei, Dachdeckerei & Baufirma aus Hamburg-Bramfeld. Als Generalunternehmer planen und realisieren wir jeden Schritt — ganzheitlich und in Holz.',
     }),
+    getHeroSlides(),
   ]);
+  // Wenn im CMS Slides gepflegt sind: die nehmen. Sonst Fallback-Auswahl aus /public.
+  const heroSlides =
+    cmsHeroSlides.length > 0 ? cmsHeroSlides : FALLBACK_HERO_SLIDES;
   // Wenn CMS leer: nutze die hartcodierte Default-Auswahl
   const refTeasers =
     featuredRefs.length > 0
@@ -273,17 +296,7 @@ export default async function HomePage() {
               ))}
             </div>
           </div>
-          <img
-            src="/images/start/hero.jpg"
-            alt="FriStD-Bau Hauptprojekt — Holzrahmenbau"
-            style={{
-              width: '100%',
-              height: 'clamp(280px, 50vw, 560px)',
-              objectFit: 'cover',
-              borderRadius: 22,
-              display: 'block',
-            }}
-          />
+          <HeroSlideshow slides={heroSlides} />
         </div>
       </section>
 

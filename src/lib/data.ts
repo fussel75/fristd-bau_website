@@ -75,14 +75,58 @@ export async function getReferences(opts?: { featured?: boolean; limit?: number 
       collection: 'references',
       ...(opts?.featured ? { where: { featured: { equals: true } } } : {}),
       sort: 'order',
+      // depth: 2 damit auch die gallery.image Uploads vollstaendig geladen werden
+      // (gallery ist ein Array-Feld mit einem upload-Field darin -> 2 Ebenen tief).
       limit: opts?.limit ?? 100,
-      depth: 1,
+      depth: 2,
     });
     return result.docs;
   } catch (e) {
     console.warn('[data] Referenzen nicht ladbar:', e);
     return [];
   }
+}
+
+// Liest die im CMS gepflegten Hero-Slides als flaches Array {src, alt}.
+// Gibt leeres Array zurueck wenn nichts gepflegt ist -> Aufrufer nutzt Fallback.
+export async function getHeroSlides(): Promise<Array<{ src: string; alt: string }>> {
+  const s = (await getSettings()) as {
+    heroSlides?: Array<{ image?: MediaShape; alt?: string }>;
+  } | null;
+  const list = s?.heroSlides ?? [];
+  return list
+    .map((it) => ({
+      src: mediaUrl(it.image, 'hero'),
+      alt: it.alt || it.image?.alt || '',
+    }))
+    .filter((it) => it.src);
+}
+
+export type ImpressionenVideo = {
+  src: string;
+  mime?: string;
+  poster?: string;
+  caption?: string;
+};
+
+// Liest die Impressionen-Videos aus den Settings.
+export async function getImpressionenVideos(): Promise<ImpressionenVideo[]> {
+  const s = (await getSettings()) as {
+    impressionenVideos?: Array<{
+      video?: MediaShape & { mimeType?: string };
+      poster?: MediaShape;
+      caption?: string;
+    }>;
+  } | null;
+  const list = s?.impressionenVideos ?? [];
+  return list
+    .map((it) => ({
+      src: mediaUrl(it.video),
+      mime: it.video?.mimeType,
+      poster: mediaUrl(it.poster, 'hero'),
+      caption: it.caption,
+    }))
+    .filter((it) => it.src);
 }
 
 export async function getActiveJobs() {

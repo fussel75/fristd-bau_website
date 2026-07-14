@@ -2,6 +2,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { FaqAccordion, FaqItem } from '@/components/FaqAccordion';
 import { LeistungenSidebar, SidebarItem } from '@/components/LeistungenSidebar';
+import { HeroSlideshow, HeroSlide } from '@/components/HeroSlideshow';
 import { getSettingsOrDefault, getPageHero } from '@/src/lib/data';
 import { JsonLd } from '@/components/seo/JsonLd';
 import {
@@ -26,8 +27,9 @@ type Hauptbereich = {
   num: string;
   title: string;
   badge: string;
-  img: string;
+  img: string;               // Haupt-Bild (Fallback wenn images leer)
   imgAlt: string;
+  images?: HeroSlide[];      // Wenn gesetzt: Slideshow statt einzelnem Bild
   lead: string;
   items: string[];           // flache Chip-Liste
   subGroups?: SubGroup[];    // ODER gruppierte Chips (mit kleiner Ueberschrift)
@@ -41,6 +43,13 @@ const HAUPTBEREICHE: Hauptbereich[] = [
     badge: 'Meisterbetrieb Zimmererhandwerk',
     img: '/images/leistungen/neubau.jpg',
     imgAlt: 'Holzrahmenbau — FriStD-Bau Zimmerei',
+    images: [
+      { src: '/images/leistungen/neubau.jpg', alt: 'Holzrahmenbau — FriStD-Bau Zimmerei' },
+      { src: '/images/referenzen/ref-01-neubau-heestweg.jpg', alt: 'Neubau in Holzrahmenbau' },
+      { src: '/images/referenzen/ref-02-aufstockung-suederfeld.jpg', alt: 'Aufstockung mit Holzfassade' },
+      { src: '/images/referenzen/ref-08-anbau-krupunder.jpg', alt: 'Anbau in Holzbauweise' },
+      { src: '/images/leistungen/innenausbau.jpg', alt: 'Innenausbau — Holz-Trockenbau' },
+    ],
     lead:
       'Alle Zimmererarbeiten für Ihr Bauvorhaben — von der Konstruktion bis zur Aufstellung. Holz ist nachhaltig, leicht und schnell montiert. Ideal auch für Aufstockung und Anbau ohne aufwendige Fundamente.',
     items: [
@@ -61,6 +70,12 @@ const HAUPTBEREICHE: Hauptbereich[] = [
     badge: 'Meisterbetrieb Dachdeckerhandwerk · „Dach und dicht" · PV-Partner',
     img: '/images/leistungen/dach.jpg',
     imgAlt: 'Dachdeckerarbeiten am Wohngebäude — FriStD-Bau',
+    images: [
+      { src: '/images/leistungen/dach.jpg', alt: 'Dachdeckerarbeiten am Wohngebäude' },
+      { src: '/images/referenzen/ref-05-dachstuhl-schiller.jpg', alt: 'Dachstuhl-Konstruktion vom Zimmerermeister' },
+      { src: '/images/referenzen/ref-06-dachsanierung-wacholderweg.jpg', alt: 'Dachsanierung am Wohngebäude' },
+      { src: '/images/referenzen/ref-03-mansarddach-stofferkamp75.jpg', alt: 'Mansarddach-Aufstockung' },
+    ],
     lead:
       'Alles rund ums Dach — von der Neueindeckung bis zur Photovoltaik-Anlage. Fachgerecht ausgeführt vom Dachdeckermeister, inklusive Klempnerarbeiten, Wärmedämmung und PV-Montage mit Netzwerk-Elektriker.',
     items: [],
@@ -103,6 +118,11 @@ const HAUPTBEREICHE: Hauptbereich[] = [
     badge: 'Meisterbetrieb Installations- & Heizungsbau · Stiebel-Eltron-Partner',
     img: '/images/leistungen/energetik.jpg',
     imgAlt: 'Effizienzhaus mit Holzfassade — FriStD-Bau Heizungsbau',
+    images: [
+      { src: '/images/leistungen/energetik.jpg', alt: 'Effizienzhaus mit Holzfassade' },
+      { src: '/images/leistungen/sanierung-nachher.jpg', alt: 'Modernisiertes Haus nach Energetik-Sanierung' },
+      { src: '/images/leistungen/sanierung-vorher.jpg', alt: 'Haus vor der Sanierung' },
+    ],
     lead:
       'Vom Erdbau bis zur Wärmepumpe — komplette Anlagentechnik aus einer Hand. Zertifizierter Stiebel-Eltron-Partner für Wärmepumpen und zugelassen bei Hamburg Wasser für alle Hausanschlüsse.',
     items: [],
@@ -502,7 +522,18 @@ export default async function LeistungenPage() {
                 <div style={{ marginBottom: 22 }}>
                   <span style={badge}>{b.badge}</span>
                 </div>
-                <img src={b.img} alt={b.imgAlt} style={slotStyle} />
+                {b.images && b.images.length > 1 ? (
+                  <div style={{ marginBottom: 26 }}>
+                    <HeroSlideshow
+                      slides={b.images}
+                      intervalMs={8000}
+                      height="clamp(220px, 30vw, 340px)"
+                      radius={16}
+                    />
+                  </div>
+                ) : (
+                  <img src={b.img} alt={b.imgAlt} style={slotStyle} />
+                )}
                 <p style={{ ...leadParagraph, marginBottom: 22 }}>{b.lead}</p>
                 {b.items.length > 0 && (
                   <div
