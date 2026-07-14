@@ -18,9 +18,9 @@ import {
 const FALLBACK_HERO_SLIDES: HeroSlide[] = [
   { src: '/images/start/hero.jpg', alt: 'Holzrahmenbau — FriStD-Bau Hauptprojekt' },
   { src: '/images/referenzen/ref-01-neubau-heestweg.jpg', alt: 'Neubau in Holzrahmenbau mit Holzweichfaser-Daemmung' },
-  { src: '/images/referenzen/ref-02-aufstockung-suederfeld.jpg', alt: 'Aufstockung in Holzbauweise mit Holzfassade' },
   { src: '/images/leistungen/dach.jpg', alt: 'Dachdeckerarbeiten am Wohngebaeude' },
   { src: '/images/referenzen/ref-05-dachstuhl-schiller.jpg', alt: 'Dachstuhl-Konstruktion vom Zimmerermeister' },
+  { src: '/images/referenzen/ref-06-dachsanierung-wacholderweg.jpg', alt: 'Dachsanierung am Wohngebaeude' },
 ];
 
 // Immer server-rendern mit aktuellen CMS-Daten (keine Static-Cache-Falle).
@@ -54,8 +54,8 @@ const TEASER_CARDS = [
   },
   {
     num: '02',
-    title: 'Dachdeckerei & Klempnerei',
-    desc: 'Dachstühle, Eindeckungen, Sanierungen und Klempnerarbeiten.',
+    title: 'Dachdeckerei, Klempnerei & Photovoltaik',
+    desc: 'Dachstühle, Eindeckungen, Sanierungen, Klempnerarbeiten und PV-Anlagen.',
     href: '/leistungen#dachdeckerei',
   },
   {
@@ -69,27 +69,22 @@ const TEASER_CARDS = [
 const REFERENCE_TEASERS = [
   {
     cat: 'Neubau',
-    title: 'Holzrahmenbau Heestweg',
+    title: 'Neubau in Holzrahmenbau',
     img: '/images/referenzen/ref-01-neubau-heestweg.jpg',
   },
   {
-    cat: 'Aufstockung',
-    title: 'Effizienzhaus Süderfeldstraße',
-    img: '/images/referenzen/ref-02-aufstockung-suederfeld.jpg',
-  },
-  {
     cat: 'Dach',
-    title: 'Dachstuhl Schillerstraße',
+    title: 'Dachstuhl-Konstruktion',
     img: '/images/referenzen/ref-05-dachstuhl-schiller.jpg',
   },
   {
     cat: 'Sanierung',
-    title: 'Balkonsanierung Grasredder',
+    title: 'Balkonsanierung',
     img: '/images/referenzen/ref-07-balkonsanierung-grasredder.jpg',
   },
   {
     cat: 'Anbau',
-    title: 'Anbau Krupunder Weg',
+    title: 'Anbau in Holzbauweise',
     img: '/images/referenzen/ref-08-anbau-krupunder.jpg',
   },
 ];

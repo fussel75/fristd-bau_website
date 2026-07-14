@@ -289,7 +289,7 @@ export function ReferenzenGallery({
                 {p.title}
               </div>
               <div style={{ fontSize: 14, color: '#8A8A8C' }}>
-                {p.loc} · {p.year}
+                {p.loc}
               </div>
             </div>
           </div>

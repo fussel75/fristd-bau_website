@@ -46,7 +46,6 @@ const HAUPTBEREICHE: Hauptbereich[] = [
     images: [
       { src: '/images/leistungen/neubau.jpg', alt: 'Holzrahmenbau — FriStD-Bau Zimmerei' },
       { src: '/images/referenzen/ref-01-neubau-heestweg.jpg', alt: 'Neubau in Holzrahmenbau' },
-      { src: '/images/referenzen/ref-02-aufstockung-suederfeld.jpg', alt: 'Aufstockung mit Holzfassade' },
       { src: '/images/referenzen/ref-08-anbau-krupunder.jpg', alt: 'Anbau in Holzbauweise' },
       { src: '/images/leistungen/innenausbau.jpg', alt: 'Innenausbau — Holz-Trockenbau' },
     ],
